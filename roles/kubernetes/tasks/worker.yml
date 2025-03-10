@@ -1,0 +1,148 @@
+#---
+#- name: Add k8s repo
+#  ansible.builtin.yum_repository:
+#    name: kubernetes
+#    description: Kubernetes repository
+#    baseurl: https://pkgs.k8s.io/core:/stable:/v1.32/rpm/
+#    enabled: yes
+#    gpgcheck: yes
+#    gpgkey: https://pkgs.k8s.io/core:/stable:/v1.32/rpm/repodata/repomd.xml.key
+#
+#- name : Add containerd repo
+#  ansible.builtin.command:
+#    cmd: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#  become: yes
+#
+#- name: Install k8s packages
+#  ansible.builtin.yum:
+#    name: "{{ item }}"
+#    state: latest
+#  loop:
+#    - yum-utils
+#    - kubelet
+#    - kubeadm
+#    - kubectl
+#
+#
+#- name : Install containerd pkg
+#  ansible.builtin.yum:
+#    name : containerd.io
+#    state : latest
+#
+## CONTAINERD 
+#- name : Cretae containerd config dir
+#  ansible.builtin.file:
+#    path: /etc/containerd
+#    state: directory
+#
+#- name : Generate default containerd config
+#  ansible.builtin.command:
+#    cmd: containerd config default > /etc/containerd/config.toml
+#    creates: /etc/containerd/config.toml
+#
+#- name: Update containerd config for systemd cgroup driver
+#  ansible.builtin.replace:
+#    path: /etc/containerd/config.toml
+#    regexp: 'SystemdCgroup = false'
+#    replace: 'SystemdCgroup = true'
+#
+#- name: Comment out disabled_plugins line in containerd config
+#  ansible.builtin.replace:
+#    path: /etc/containerd/config.toml
+#    regexp: '^disabled_plugins(\s*)=(\s*)\["cri"\]'
+#    replace: '#disabled_plugins\1=\2["cri"]'
+#
+#- name: Start and enable containerd service
+#  ansible.builtin.service:
+#    name: containerd
+#    state: started
+#    enabled: yes
+#################################
+#
+#- name: Enable kubelet service
+#  ansible.builtin.service:
+#    name: kubelet
+#    enabled: yes
+#    state: restarted
+#
+#- name : disable swap
+#  ansible.builtin.command:
+#    cmd : swapoff -a
+#
+##- name : remove swap from fstab
+##  ansible.builtin.replace:
+##    path : /etc/fstab
+##    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+##    replace: '# \1'
+##
+#- name: Remove swap from fstab
+#  ansible.builtin.replace:
+#    path: /etc/fstab
+#    regexp: '^/dev/mapper/cs-swap.*swap.*'
+#    replace: '# /dev/mapper/cs-swap     none                    swap    defaults        0 0'
+#
+#
+#
+#- name: Load kernel modules
+#  ansible.builtin.copy:
+#    content: |
+#      overlay
+#      br_netfilter
+#    dest: /etc/modules-load.d/k8s.conf
+#
+#- name: Load br_netfilter module
+#  ansible.builtin.modprobe:
+#    name: br_netfilter
+#    state: present
+#
+#- name: Set kernel parameters
+#  ansible.builtin.sysctl:
+#    name: "{{ item.name }}"
+#    value: "{{ item.value }}"
+#    state: present
+#    reload: yes
+#  loop:
+#    - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+#    - { name: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+#    - { name: 'net.ipv4.ip_forward', value: '1' }
+#
+#- name: Copy join command to worker nodes
+#  copy:
+#    src: /tmp/kubeadm_join.sh
+#    dest: /tmp/kubeadm_join.sh
+#    mode: '0755'
+#
+#- name: Make join command executable
+#  ansible.builtin.command:
+#    cmd: chmod +x /tmp/kubeadm_join.sh
+#
+#- name: Join Kubernetes cluster
+#  ansible.builtin.shell:
+#    cmd: /tmp/kubeadm_join.sh
+#
+---
+- name: Install Kubernetes packages for worker
+  yum:
+    name:
+      - kubelet
+      - kubeadm
+    state: present
+
+- name: Enable and start kubelet
+  service:
+    name: kubelet
+    state: started
+    enabled: yes
+
+- name : copy file
+  ansible.builtin.copy:
+    src: /home/ansible/join.sh
+    dest: /root/join.sh
+    owner: root
+    group: root
+    mode: '0700'
+
+
+- name : exec join
+  ansible.builtin.shell:
+    cmd : /root/join.sh

@@ -1,0 +1,17 @@
+---
+- name: Configure Kubernetes Master Node
+  hosts: master
+  become: true
+  roles:
+    - role: kubernetes
+      vars:
+        node_type: master
+
+- name : Configure Kubernetes Worker Node
+  hosts : worker
+  become: true
+  roles:
+    - role : kubernetes
+      vars:
+        node_type : worker
+

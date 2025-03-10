@@ -1,0 +1,122 @@
+---
+- name: Set up Prometheus and Alertmanager configuration
+  hosts: nfs.infraninjas.local  # Prometheus 및 Alertmanager가 설치된 VM의 호스트 이름
+  become: yes  # root 권한으로 실행
+
+  vars:
+    prometheus_version: "2.53.3"  # Prometheus 버전
+    prometheus_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"  # Prometheus 다운로드 URL
+
+  tasks:
+    # Prometheus 다운로드 및 압축 해제
+    - name: Download and unarchive Prometheus
+      ansible.builtin.unarchive:
+        src: "{{ prometheus_url }}"
+        dest: /home/ansible/
+        remote_src: true
+
+    # Prometheus 사용자 추가
+    - name: Add Prometheus user
+      user:
+        name: prometheus
+        shell: /bin/false
+
+    # Prometheus 디렉토리 생성
+    - name: Create Prometheus directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: ansible
+        group: ansible
+      with_items:
+        - /etc/prometheus
+        - /var/lib/prometheus
+
+    # Prometheus 바이너리 이동
+    - name: Move Prometheus binaries
+      shell: "mv /home/ansible/prometheus-{{ prometheus_version }}.linux-amd64/{prometheus,promtool} /usr/local/bin/"
+
+    # Prometheus 바이너리 소유권 설정
+    - name: Set ownership of Prometheus binaries
+      file:
+        path: "{{ item }}"
+        owner: ansible
+        group: ansible
+        mode: '0755'
+      with_items:
+        - /usr/local/bin/prometheus
+        - /usr/local/bin/promtool
+
+    # Prometheus 설정 파일 배포
+    - name: Copy Prometheus configuration file
+      copy:
+        src: files/prometheus.yml  # 'files' 디렉토리 내의 prometheus.yml 파일
+        dest: /etc/prometheus/prometheus.yml
+        owner: ansible
+        group: ansible
+        mode: '0644'
+
+    # Prometheus 서비스 파일 생성
+    - name: Create Prometheus systemd service file
+      copy:
+        dest: /etc/systemd/system/prometheus.service
+        content: |
+          [Unit]
+          Description=Prometheus
+          Wants=network-online.target
+          After=network-online.target
+
+          [Service]
+          User=prometheus
+          Group=prometheus
+          Type=simple
+          ExecStart=/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/
+
+          [Install]
+          WantedBy=multi-user.target
+
+    # systemd 리로드
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    # Prometheus 서비스 활성화 및 재시작
+    - name: Enable and restart Prometheus service
+      service:
+        name: prometheus
+        enabled: true
+        state: restarted
+
+    # Prometheus 룰 디렉토리 생성
+    - name: Create the Prometheus rules directory
+      file:
+        path: /etc/prometheus/rules
+        state: directory
+        owner: ansible
+        group: ansible
+        mode: '0755'
+
+    # Prometheus 알림 규칙 파일 배포
+    - name: Copy Prometheus alert rules
+      copy:
+        src: files/alert.rules  # 'files' 디렉토리 내의 alert.rules 파일
+        dest: /etc/prometheus/rules/alert.rules
+        owner: ansible
+        group: ansible
+        mode: '0644'
+
+    # Alertmanager 설정 파일 배포
+    - name: Ensure Alertmanager is configured
+      copy:
+        src: files/alertmanager.yml  # 'files' 디렉토리 내의 alertmanager.yml 파일
+        dest: /etc/prometheus/alertmanager.yml
+        owner: ansible
+        group: ansible
+        mode: '0644'
+
+    # Alertmanager 서비스 재시작
+#    - name: Restart Alertmanager service to apply changes
+ #     service:
+   #     name: alertmanager
+  #     state: restarted
+   #     enabled: true
+

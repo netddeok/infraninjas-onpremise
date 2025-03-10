@@ -1,0 +1,12 @@
+---
+# tasks file for monitoring
+
+- name: Include prometheus tasks
+  include_tasks: prometheus.yml
+  when: "'prometheus' in group_names"
+
+#- name: Include grafana tasks
+#  include_tasks: grafana.yml
+#  when: "'grafana' in group_names"
+
+

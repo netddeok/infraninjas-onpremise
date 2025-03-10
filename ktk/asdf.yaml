@@ -1,0 +1,10 @@
+- name: ssadf
+  hosts: nfs.infraninjas.local
+  become: true
+  vars : 
+    prometheus_version : 2.53.3
+    prometheus_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+  tasks:
+    - name: include prometheus.yml
+      include_tasks: ./prometheus.yml
+

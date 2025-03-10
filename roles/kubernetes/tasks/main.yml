@@ -1,0 +1,129 @@
+#---
+# roles/kubernetes/tasks/main.yml
+
+#- name: Include master node configuration
+#  include_tasks: master.yml
+#  when: node_type == 'master'
+
+#- name : Include worker node configuration
+#  include_tasks: worker.yml
+#  when: node_type == 'worker'
+#
+#
+---
+# SELinux 설정
+- name: Set SELinux in permissive mode
+  selinux:
+    policy: targeted
+    state: permissive
+
+# 스왑 비활성화
+- name: Disable swap
+  command: swapoff -a
+  changed_when: false
+
+- name: Remove swap entry from /etc/fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
+# 필요한 커널 모듈 로드
+- name: Load required kernel modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - br_netfilter
+    - overlay
+
+# 커널 모듈 영구 설정
+- name: Add kernel modules to load at boot
+  copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: |
+      br_netfilter
+      overlay
+
+# 커널 파라미터 설정
+- name: Set kernel parameters for Kubernetes
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  with_items:
+    - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+    - { name: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+    - { name: 'net.ipv4.ip_forward', value: '1' }
+
+# 방화벽 설정
+- name: Stop and disable firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+# yum 업데이트 및 필수 패키지 설치
+- name: Install required packages
+  yum:
+    name:
+      - yum-utils
+    state: present
+
+# Kubernetes 레포지토리 추가
+- name: Add Kubernetes repository
+  yum_repository:
+    name: kubernetes
+    description: Kubernetes Repository
+    baseurl: https://pkgs.k8s.io/core:/stable:/v1.30/rpm/
+    gpgkey: https://pkgs.k8s.io/core:/stable:/v1.30/rpm/repodata/repomd.xml.key
+    gpgcheck: yes
+    enabled: yes
+
+- name: Add Docker repo
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+# containerd 설치
+- name: Install containerd
+  yum:
+    name: containerd.io
+    state: present
+
+# containerd 설정
+- name: Create containerd config directory
+  file:
+    path: /etc/containerd
+    state: directory
+
+- name: Configure containerd
+  shell: containerd config default > /etc/containerd/config.toml
+
+- name: Update containerd configuration to use systemd cgroup driver
+  replace:
+    path: /etc/containerd/config.toml
+    regexp: 'SystemdCgroup = false'
+    replace: 'SystemdCgroup = true'
+
+- name: Restart containerd
+  service:
+    name: containerd
+    state: restarted
+    enabled: yes
+
+# 노드 타입에 따른 조건부 실행
+#- name: Include master tasks
+#  include_tasks: master.yml
+#  when: node_type == "master"
+
+#- name: Include worker tasks
+#  include_tasks: worker.yml
+#  when: node_type == "worker"
+
+- name: Include master tasks
+  include_tasks: master.yml
+  when: "'master' in group_names"
+
+- name: Include worker tasks
+  include_tasks: worker.yml
+  when: "'worker' in group_names"

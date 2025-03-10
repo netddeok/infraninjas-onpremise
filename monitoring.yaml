@@ -1,0 +1,8 @@
+- name : import monitoring
+  hosts : monitoring
+  become: true
+  tasks :
+    - name : import
+      import_role:
+        name : monitoring
+

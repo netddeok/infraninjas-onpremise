@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'webcluster'
+    static_configs:
+      - targets:
+        {% for ip in groups['webcluster'] %}
+          - "{{ ip }}:9115"
+        {% endfor %}
+  - job_name: 'alertmanager'
+    static_configs:
+      - targets:
+        - "localhost:9093"  # Alertmanager의 기본 포트
+
