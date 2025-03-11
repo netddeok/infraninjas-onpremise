@@ -1,0 +1,12 @@
+---
+- name : asdf
+  hosts : all
+  become : true
+  tasks : 
+    - name : csv
+      lineinfile:
+        path : ./facts.csv
+        line: "{{ inventory_hostname }},{{ ansible_distribution }},{{ ansible_memtotal_mb }},{{ ansible_processor_count }}"
+        create : true
+      delegate_to: localhost
+      run_once : false

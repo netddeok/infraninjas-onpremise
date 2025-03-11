@@ -1,0 +1,17 @@
+- name: asdf
+  hosts: all
+  become: true
+  tasks:
+    - name: 헤더 생성
+      copy:
+        content: |
+          호스트명 OS종류 메모리(MB) CPU코어
+        dest: "./facts.txt"
+      delegate_to: localhost
+      run_once: true
+
+    - name: 팩트 정보 추가
+      lineinfile:
+        path: "./facts.txt"
+        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }}"
+      delegate_to: localhost

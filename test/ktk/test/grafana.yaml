@@ -1,0 +1,52 @@
+---
+- name: Install and Configure Grafana
+  hosts: grafana
+  become: yes
+  vars:
+    grafana_version: "9.0.0"  # 원하는 Grafana 버전을 명시합니다.
+  
+  tasks:
+    - name: Add Grafana YUM repository
+      yum_repository:
+        name: grafana
+        description: Grafana OSS Repository
+        baseurl: https://packages.grafana.com/oss/rpm
+        gpgkey: https://packages.grafana.com/gpg.key
+        enabled: yes
+        gpgcheck: yes
+
+    - name: Install Grafana package
+      yum:
+        name: grafana
+        state: present
+
+    - name: Start and enable Grafana service
+      systemd:
+        name: grafana-server
+        enabled: yes
+        state: started
+
+    - name: Configure Grafana to allow external access (update configuration)
+      lineinfile:
+        path: /etc/grafana/grafana.ini
+        regexp: '^#http_addr ='
+        line: 'http_addr = 0.0.0.0'  # 모든 IP에서 접근할 수 있도록 설정
+        state: present
+
+    - name: Configure Grafana server port (optional)
+      lineinfile:
+        path: /etc/grafana/grafana.ini
+        regexp: '^#http_port ='
+        line: 'http_port = 3000'  # 기본 포트 설정
+
+    - name: Set the admin password (optional)
+      lineinfile:
+        path: /etc/grafana/grafana.ini
+        regexp: '^admin_password ='
+        line: 'admin_password = "your_password_here"'  # 관리자 비밀번호 설정
+
+    - name: Restart Grafana to apply changes
+      systemd:
+        name: grafana-server
+        state: restarted
+

@@ -1,0 +1,1016 @@
+2025-03-10 19:28:43,061 p=19255 u=ansible n=ansible | ansible-playbook [core 2.15.13]
+  config file = /home/ansible/project/ktk/ansible.cfg
+  configured module search path = ['/home/ansible/project/ktk/library']
+  ansible python module location = /home/ansible/.local/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/ansible/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/ansible/.local/bin/ansible-playbook
+  python version = 3.9.19 (main, Jun 11 2024, 00:00:00) [GCC 11.4.1 20231218 (Red Hat 11.4.1-3)] (/usr/bin/python3)
+  jinja version = 3.1.5
+  libyaml = True
+2025-03-10 19:28:43,061 p=19255 u=ansible n=ansible | Using /home/ansible/project/ktk/ansible.cfg as config file
+2025-03-10 19:28:43,191 p=19255 u=ansible n=ansible | redirecting (type: callback) ansible.builtin.yaml to community.general.yaml
+2025-03-10 19:28:43,214 p=19255 u=ansible n=ansible | redirecting (type: callback) ansible.builtin.yaml to community.general.yaml
+2025-03-10 19:28:43,225 p=19255 u=ansible n=ansible | Skipping callback 'default', as we already have a stdout callback.
+2025-03-10 19:28:43,225 p=19255 u=ansible n=ansible | Skipping callback 'minimal', as we already have a stdout callback.
+2025-03-10 19:28:43,225 p=19255 u=ansible n=ansible | Skipping callback 'oneline', as we already have a stdout callback.
+2025-03-10 19:28:43,225 p=19255 u=ansible n=ansible | PLAYBOOK: prometheus.setup.yml **************************************************************************************
+2025-03-10 19:28:43,225 p=19255 u=ansible n=ansible | 1 plays in prometheus.setup.yml
+2025-03-10 19:28:43,226 p=19255 u=ansible n=ansible | PLAY [Install and configure Prometheus, Node Exporter, and Alertmanager] ********************************************
+2025-03-10 19:28:43,232 p=19255 u=ansible n=ansible | TASK [Gathering Facts] **********************************************************************************************
+2025-03-10 19:28:44,562 p=19255 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:28:44,570 p=19255 u=ansible n=ansible | TASK [Download Prometheus] ******************************************************************************************
+2025-03-10 19:28:55,102 p=19255 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  checksum_dest: null
+  checksum_src: de9e5e02fd524ca092afbd302e55f2f03d0710a1
+  dest: /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+  elapsed: 9
+  gid: 0
+  group: root
+  md5sum: 13e083957082b39ab465a10e9624ce2c
+  mode: '0644'
+  msg: OK (90577277 bytes)
+  owner: root
+  size: 90577277
+  src: /home/ansible/.ansible/tmp/ansible-tmp-1741602524.6312492-19273-101484699348611/tmpp094qrbt
+  state: file
+  status_code: 200
+  uid: 0
+  url: https://github.com/prometheus/prometheus/releases/download/v2.44.0/prometheus-2.44.0.linux-amd64.tar.gz
+2025-03-10 19:28:55,105 p=19255 u=ansible n=ansible | TASK [Extract Prometheus] *******************************************************************************************
+2025-03-10 19:28:59,184 p=19255 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  dest: /usr/local/bin/
+  extract_results:
+    cmd:
+    - /bin/gtar
+    - --extract
+    - -C
+    - /usr/local/bin
+    - -z
+    - -f
+    - /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+    err: ''
+    out: ''
+    rc: 0
+  gid: 0
+  group: root
+  handler: TgzArchive
+  mode: '0755'
+  owner: root
+  size: 77
+  src: /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+  state: directory
+  uid: 0
+2025-03-10 19:28:59,187 p=19255 u=ansible n=ansible | TASK [Create Prometheus user] ***************************************************************************************
+2025-03-10 19:28:59,670 p=19255 u=ansible n=ansible | ok: [nfs.infraninjas.local] => changed=false 
+  append: false
+  comment: ''
+  group: 1002
+  home: /home/prometheus
+  move_home: false
+  name: prometheus
+  shell: /bin/false
+  state: present
+  uid: 1002
+2025-03-10 19:28:59,677 p=19255 u=ansible n=ansible | TASK [Move Prometheus binaries] *************************************************************************************
+2025-03-10 19:29:00,148 p=19255 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  cmd:
+  - mv
+  - /usr/local/bin/prometheus-2.44.0.linux-amd64/prometheus
+  - /usr/local/bin/prometheus
+  delta: '0:00:00.011844'
+  end: '2025-03-10 19:29:00.089008'
+  msg: ''
+  rc: 0
+  start: '2025-03-10 19:29:00.077164'
+  stderr: ''
+  stderr_lines: <omitted>
+  stdout: ''
+  stdout_lines: <omitted>
+2025-03-10 19:29:00,156 p=19255 u=ansible n=ansible | TASK [Create Prometheus configuration directory] ********************************************************************
+2025-03-10 19:29:00,596 p=19255 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  gid: 1002
+  group: prometheus
+  mode: '0755'
+  owner: prometheus
+  path: /etc/prometheus
+  size: 65
+  state: directory
+  uid: 1002
+2025-03-10 19:29:00,600 p=19255 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ***************************************************************************
+2025-03-10 19:29:00,719 p=19255 u=ansible n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 19:29:00,720 p=19255 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => changed=false 
+  msg: |-
+    Could not find or access '/etc/prometheus/prometheus.yml' on the Ansible Controller.
+    If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 19:29:00,721 p=19255 u=ansible n=ansible | PLAY RECAP **********************************************************************************************************
+2025-03-10 19:29:00,721 p=19255 u=ansible n=ansible | nfs.infraninjas.local      : ok=6    changed=4    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:30:29,987 p=19383 u=ansible n=ansible | ansible-playbook [core 2.15.13]
+  config file = /home/ansible/project/ktk/ansible.cfg
+  configured module search path = ['/home/ansible/project/ktk/library']
+  ansible python module location = /home/ansible/.local/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/ansible/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/ansible/.local/bin/ansible-playbook
+  python version = 3.9.19 (main, Jun 11 2024, 00:00:00) [GCC 11.4.1 20231218 (Red Hat 11.4.1-3)] (/usr/bin/python3)
+  jinja version = 3.1.5
+  libyaml = True
+2025-03-10 19:30:29,987 p=19383 u=ansible n=ansible | Using /home/ansible/project/ktk/ansible.cfg as config file
+2025-03-10 19:30:30,134 p=19383 u=ansible n=ansible | redirecting (type: callback) ansible.builtin.yaml to community.general.yaml
+2025-03-10 19:30:30,172 p=19383 u=ansible n=ansible | redirecting (type: callback) ansible.builtin.yaml to community.general.yaml
+2025-03-10 19:30:30,182 p=19383 u=ansible n=ansible | Skipping callback 'default', as we already have a stdout callback.
+2025-03-10 19:30:30,182 p=19383 u=ansible n=ansible | Skipping callback 'minimal', as we already have a stdout callback.
+2025-03-10 19:30:30,182 p=19383 u=ansible n=ansible | Skipping callback 'oneline', as we already have a stdout callback.
+2025-03-10 19:30:30,182 p=19383 u=ansible n=ansible | PLAYBOOK: prometheus.setup.yml **************************************************************************************
+2025-03-10 19:30:30,182 p=19383 u=ansible n=ansible | 1 plays in prometheus.setup.yml
+2025-03-10 19:30:30,183 p=19383 u=ansible n=ansible | PLAY [Install and configure Prometheus, Node Exporter, and Alertmanager] ********************************************
+2025-03-10 19:30:30,189 p=19383 u=ansible n=ansible | TASK [Gathering Facts] **********************************************************************************************
+2025-03-10 19:30:31,655 p=19383 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:30:31,666 p=19383 u=ansible n=ansible | TASK [Download Prometheus] ******************************************************************************************
+2025-03-10 19:30:33,031 p=19383 u=ansible n=ansible | ok: [nfs.infraninjas.local] => changed=false 
+  dest: /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+  elapsed: 0
+  gid: 0
+  group: root
+  mode: '0644'
+  msg: 'HTTP Error 304: Not Modified'
+  owner: root
+  size: 90577277
+  state: file
+  status_code: 304
+  uid: 0
+  url: https://github.com/prometheus/prometheus/releases/download/v2.44.0/prometheus-2.44.0.linux-amd64.tar.gz
+2025-03-10 19:30:33,035 p=19383 u=ansible n=ansible | TASK [Extract Prometheus] *******************************************************************************************
+2025-03-10 19:30:37,146 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  dest: /usr/local/bin/
+  extract_results:
+    cmd:
+    - /bin/gtar
+    - --extract
+    - -C
+    - /usr/local/bin
+    - -z
+    - -f
+    - /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+    err: ''
+    out: ''
+    rc: 0
+  gid: 0
+  group: root
+  handler: TgzArchive
+  mode: '0755'
+  owner: root
+  size: 77
+  src: /tmp/prometheus-2.44.0.linux-amd64.tar.gz
+  state: directory
+  uid: 0
+2025-03-10 19:30:37,150 p=19383 u=ansible n=ansible | TASK [Create Prometheus user] ***************************************************************************************
+2025-03-10 19:30:37,685 p=19383 u=ansible n=ansible | ok: [nfs.infraninjas.local] => changed=false 
+  append: false
+  comment: ''
+  group: 1002
+  home: /home/prometheus
+  move_home: false
+  name: prometheus
+  shell: /bin/false
+  state: present
+  uid: 1002
+2025-03-10 19:30:37,689 p=19383 u=ansible n=ansible | TASK [Move Prometheus binaries] *************************************************************************************
+2025-03-10 19:30:38,174 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  cmd:
+  - mv
+  - /usr/local/bin/prometheus-2.44.0.linux-amd64/prometheus
+  - /usr/local/bin/prometheus
+  delta: '0:00:00.006905'
+  end: '2025-03-10 19:30:38.114028'
+  msg: ''
+  rc: 0
+  start: '2025-03-10 19:30:38.107123'
+  stderr: ''
+  stderr_lines: <omitted>
+  stdout: ''
+  stdout_lines: <omitted>
+2025-03-10 19:30:38,180 p=19383 u=ansible n=ansible | TASK [Create Prometheus configuration directory] ********************************************************************
+2025-03-10 19:30:38,669 p=19383 u=ansible n=ansible | ok: [nfs.infraninjas.local] => changed=false 
+  gid: 1002
+  group: prometheus
+  mode: '0755'
+  owner: prometheus
+  path: /etc/prometheus
+  size: 65
+  state: directory
+  uid: 1002
+2025-03-10 19:30:38,676 p=19383 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ***************************************************************************
+2025-03-10 19:30:39,500 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  checksum: b1dcce66ce54c497845e55ffd989db994c53a0bb
+  dest: /etc/prometheus/prometheus.yml
+  gid: 1002
+  group: prometheus
+  md5sum: 812eb2ce39df85233dad4cdf4839b25b
+  mode: '0644'
+  owner: prometheus
+  size: 267
+  src: /home/ansible/.ansible/tmp/ansible-tmp-1741602638.7188823-19459-158600854897953/source
+  state: file
+  uid: 1002
+2025-03-10 19:30:39,504 p=19383 u=ansible n=ansible | TASK [Download Node Exporter] ***************************************************************************************
+2025-03-10 19:30:41,445 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  checksum_dest: null
+  checksum_src: 1f177d828699ce597dafc2c767b519f41edf78c1
+  dest: /tmp/node_exporter-1.3.1.linux-amd64.tar.gz
+  elapsed: 1
+  gid: 0
+  group: root
+  md5sum: 9ed75103b9bc65b30e407d4f238f9dea
+  mode: '0644'
+  msg: OK (9033415 bytes)
+  owner: root
+  size: 9033415
+  src: /home/ansible/.ansible/tmp/ansible-tmp-1741602639.5563552-19475-175493921337005/tmp8bteo60v
+  state: file
+  status_code: 200
+  uid: 0
+  url: https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+2025-03-10 19:30:41,449 p=19383 u=ansible n=ansible | TASK [Extract Node Exporter] ****************************************************************************************
+2025-03-10 19:30:42,441 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  dest: /usr/local/bin/
+  extract_results:
+    cmd:
+    - /bin/gtar
+    - --extract
+    - -C
+    - /usr/local/bin
+    - -z
+    - -f
+    - /tmp/node_exporter-1.3.1.linux-amd64.tar.gz
+    err: ''
+    out: ''
+    rc: 0
+  gid: 0
+  group: root
+  handler: TgzArchive
+  mode: '0755'
+  owner: root
+  size: 116
+  src: /tmp/node_exporter-1.3.1.linux-amd64.tar.gz
+  state: directory
+  uid: 0
+2025-03-10 19:30:42,445 p=19383 u=ansible n=ansible | TASK [Create Node Exporter user] ************************************************************************************
+2025-03-10 19:30:42,879 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  comment: ''
+  create_home: true
+  group: 983
+  home: /home/node_exporter
+  name: node_exporter
+  shell: /bin/bash
+  state: present
+  system: true
+  uid: 984
+2025-03-10 19:30:42,883 p=19383 u=ansible n=ansible | TASK [Move Node Exporter binaries] **********************************************************************************
+2025-03-10 19:30:43,259 p=19383 u=ansible n=ansible | changed: [nfs.infraninjas.local] => changed=true 
+  cmd:
+  - mv
+  - /usr/local/bin/node_exporter-1.3.1.linux-amd64/node_exporter
+  - /usr/local/bin/node_exporter
+  delta: '0:00:00.002510'
+  end: '2025-03-10 19:30:43.202377'
+  msg: ''
+  rc: 0
+  start: '2025-03-10 19:30:43.199867'
+  stderr: ''
+  stderr_lines: <omitted>
+  stdout: ''
+  stdout_lines: <omitted>
+2025-03-10 19:30:43,265 p=19383 u=ansible n=ansible | TASK [Enable and start Node Exporter] *******************************************************************************
+2025-03-10 19:30:43,845 p=19383 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => changed=false 
+  msg: 'Unsupported parameters for (systemd) module: user. Supported parameters include: daemon_reexec, daemon_reload, enabled, force, masked, name, no_block, scope, state (daemon-reexec, daemon-reload, service, unit).'
+2025-03-10 19:30:43,846 p=19383 u=ansible n=ansible | PLAY RECAP **********************************************************************************************************
+2025-03-10 19:30:43,846 p=19383 u=ansible n=ansible | nfs.infraninjas.local      : ok=11   changed=7    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:35:16,485 p=19668 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ***********************************************************
+2025-03-10 19:35:16,490 p=19668 u=ansible n=ansible | TASK [Gathering Facts] **********************************************************************************************
+2025-03-10 19:35:17,935 p=19668 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:35:17,945 p=19668 u=ansible n=ansible | TASK [Install Prometheus] *******************************************************************************************
+2025-03-10 19:35:19,013 p=19668 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "failures": ["No package prometheus available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+2025-03-10 19:35:19,014 p=19668 u=ansible n=ansible | PLAY RECAP **********************************************************************************************************
+2025-03-10 19:35:19,014 p=19668 u=ansible n=ansible | nfs.infraninjas.local      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:38:50,323 p=19880 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:38:50,328 p=19880 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:38:51,680 p=19880 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:38:51,688 p=19880 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:39:00,522 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:00,527 p=19880 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:39:03,855 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:03,859 p=19880 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:39:04,242 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:04,246 p=19880 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:39:04,563 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:04,567 p=19880 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:39:04,959 p=19880 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:39:04,963 p=19880 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:39:05,636 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:05,640 p=19880 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:39:06,282 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:06,286 p=19880 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:39:06,978 p=19880 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:39:06,982 p=19880 u=ansible n=ansible | TASK [Install Node Exporter] *********************************************************************************************************
+2025-03-10 19:39:07,926 p=19880 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "failures": ["No package node_exporter available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+2025-03-10 19:39:07,927 p=19880 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:39:07,927 p=19880 u=ansible n=ansible | nfs.infraninjas.local      : ok=9    changed=7    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:40:04,441 p=20227 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:40:04,445 p=20227 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:40:05,546 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:05,555 p=20227 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:40:06,304 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:06,308 p=20227 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:40:09,743 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:09,748 p=20227 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:40:10,142 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:10,146 p=20227 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:40:10,489 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:10,492 p=20227 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:40:10,889 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:10,897 p=20227 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:40:11,446 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:11,449 p=20227 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:40:11,995 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:12,000 p=20227 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:40:12,723 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:12,730 p=20227 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 19:40:14,209 p=20227 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:40:14,213 p=20227 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 19:40:15,150 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:15,154 p=20227 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 19:40:15,475 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:15,483 p=20227 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 19:40:15,805 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:15,809 p=20227 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 19:40:16,476 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:16,479 p=20227 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 19:40:17,116 p=20227 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:40:17,124 p=20227 u=ansible n=ansible | TASK [Install Alertmanager] **********************************************************************************************************
+2025-03-10 19:40:18,087 p=20227 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "failures": ["No package alertmanager available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+2025-03-10 19:40:18,088 p=20227 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:40:18,088 p=20227 u=ansible n=ansible | nfs.infraninjas.local      : ok=15   changed=9    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:41:03,957 p=20518 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:41:03,961 p=20518 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:41:05,015 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:05,024 p=20518 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:41:06,141 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:06,145 p=20518 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:41:09,594 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:09,597 p=20518 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:41:10,058 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:10,061 p=20518 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:41:10,433 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:10,437 p=20518 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:41:10,870 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:10,874 p=20518 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:41:11,485 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:11,489 p=20518 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:41:12,101 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:12,105 p=20518 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:41:12,817 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:12,820 p=20518 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 19:41:13,507 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:13,510 p=20518 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 19:41:14,507 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:14,513 p=20518 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 19:41:14,877 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:14,881 p=20518 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 19:41:15,242 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:15,249 p=20518 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 19:41:15,859 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:15,863 p=20518 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 19:41:16,427 p=20518 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:41:16,434 p=20518 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 19:41:21,735 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:21,739 p=20518 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 19:41:23,219 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:23,227 p=20518 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 19:41:23,577 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:23,581 p=20518 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 19:41:23,930 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:23,934 p=20518 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 19:41:24,287 p=20518 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:41:24,293 p=20518 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 19:41:25,091 p=20518 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "checksum": "a70ce043709012a2bcd367facd0233641cc97612", "gid": 0, "group": "root", "mode": "0644", "msg": "chown failed: failed to look up user alertmanager", "owner": "root", "path": "/etc/alertmanager/config.yml", "size": 364, "state": "file", "uid": 0}
+2025-03-10 19:41:25,092 p=20518 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:41:25,092 p=20518 u=ansible n=ansible | nfs.infraninjas.local      : ok=20   changed=11   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:42:08,603 p=20833 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:42:08,607 p=20833 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:42:09,717 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:09,725 p=20833 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:42:10,545 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:10,552 p=20833 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:42:14,093 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:14,097 p=20833 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:42:14,549 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:14,556 p=20833 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:42:14,901 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:14,904 p=20833 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:42:15,328 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:15,336 p=20833 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:42:15,981 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:15,985 p=20833 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:42:16,621 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:16,627 p=20833 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:42:17,433 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:17,436 p=20833 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 19:42:18,677 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:18,680 p=20833 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 19:42:19,636 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:19,642 p=20833 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 19:42:20,004 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:20,008 p=20833 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 19:42:20,362 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:20,365 p=20833 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 19:42:20,965 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:20,969 p=20833 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 19:42:21,508 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:21,511 p=20833 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 19:42:22,186 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:22,192 p=20833 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 19:42:23,657 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:23,660 p=20833 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 19:42:24,020 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:24,023 p=20833 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 19:42:24,361 p=20833 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:42:24,364 p=20833 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 19:42:24,698 p=20833 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:42:24,702 p=20833 u=ansible n=ansible | TASK [Create Alertmanager user] ******************************************************************************************************
+2025-03-10 19:42:25,181 p=20833 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Group alertmanager does not exist"}
+2025-03-10 19:42:25,183 p=20833 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:42:25,183 p=20833 u=ansible n=ansible | nfs.infraninjas.local      : ok=20   changed=9    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:43:16,571 p=21074 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:43:16,576 p=21074 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:43:17,624 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:17,634 p=21074 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:43:18,692 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:18,699 p=21074 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:43:22,070 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:22,073 p=21074 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:43:22,498 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:22,507 p=21074 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:43:22,854 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:22,861 p=21074 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:43:23,263 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:23,271 p=21074 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:43:23,819 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:23,823 p=21074 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:43:24,357 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:24,361 p=21074 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:43:25,095 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:25,099 p=21074 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 19:43:26,314 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:26,317 p=21074 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 19:43:27,227 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:27,230 p=21074 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 19:43:27,589 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:27,592 p=21074 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 19:43:27,921 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:27,925 p=21074 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 19:43:28,479 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:28,483 p=21074 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 19:43:29,030 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:29,034 p=21074 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 19:43:29,922 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:29,929 p=21074 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 19:43:31,311 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:31,315 p=21074 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 19:43:31,635 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:31,638 p=21074 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 19:43:31,949 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:31,953 p=21074 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 19:43:32,270 p=21074 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:43:32,274 p=21074 u=ansible n=ansible | TASK [Create Alertmanager group] *****************************************************************************************************
+2025-03-10 19:43:32,687 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:32,692 p=21074 u=ansible n=ansible | TASK [Create Alertmanager user] ******************************************************************************************************
+2025-03-10 19:43:33,139 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:33,143 p=21074 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 19:43:33,689 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:33,692 p=21074 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] ****************************************************************************************
+2025-03-10 19:43:34,380 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:34,384 p=21074 u=ansible n=ansible | TASK [Start and enable Alertmanager service] *****************************************************************************************
+2025-03-10 19:43:35,052 p=21074 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:43:35,064 p=21074 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:43:35,065 p=21074 u=ansible n=ansible | nfs.infraninjas.local      : ok=25   changed=14   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:47:13,115 p=21439 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:47:13,120 p=21439 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:47:14,508 p=21439 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:47:14,517 p=21439 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:47:22,330 p=21439 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:47:22,337 p=21439 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:47:25,802 p=21439 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:47:25,806 p=21439 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:47:26,205 p=21439 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:47:26,209 p=21439 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:47:26,547 p=21439 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:47:26,551 p=21439 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:47:26,948 p=21439 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:47:26,952 p=21439 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:47:27,669 p=21439 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "checksum": "bc621792932cefed0a68a1b894ad52a09853e84e", "gid": 0, "group": "root", "mode": "0644", "msg": "chown failed: failed to look up user prometheus", "owner": "root", "path": "/etc/prometheus/prometheus.yml", "size": 245, "state": "file", "uid": 0}
+2025-03-10 19:47:27,670 p=21439 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:47:27,670 p=21439 u=ansible n=ansible | nfs.infraninjas.local      : ok=6    changed=5    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:49:00,313 p=21587 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:49:00,319 p=21587 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:49:01,633 p=21587 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:49:01,642 p=21587 u=ansible n=ansible | TASK [Ensure prometheus group exists] ************************************************************************************************
+2025-03-10 19:49:02,051 p=21587 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:49:02,055 p=21587 u=ansible n=ansible | TASK [Ensure prometheus user exists] *************************************************************************************************
+2025-03-10 19:49:02,503 p=21587 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:49:02,507 p=21587 u=ansible n=ansible | TASK [Install Prometheus] ************************************************************************************************************
+2025-03-10 19:49:25,432 p=21587 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "failures": ["No package prometheus available."], "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+2025-03-10 19:49:25,433 p=21587 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:49:25,433 p=21587 u=ansible n=ansible | nfs.infraninjas.local      : ok=3    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:51:14,498 p=21812 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager] ****************************************************************************
+2025-03-10 19:51:14,503 p=21812 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:51:15,906 p=21812 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:51:15,919 p=21812 u=ansible n=ansible | TASK [Create Prometheus group] *******************************************************************************************************
+2025-03-10 19:51:16,354 p=21812 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:51:16,362 p=21812 u=ansible n=ansible | TASK [Create Prometheus user] ********************************************************************************************************
+2025-03-10 19:51:16,825 p=21812 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:51:16,830 p=21812 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:51:17,890 p=21812 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:51:17,894 p=21812 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:51:21,235 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:21,239 p=21812 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 19:51:21,651 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:21,657 p=21812 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 19:51:22,004 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:22,008 p=21812 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 19:51:22,493 p=21812 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:51:22,501 p=21812 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 19:51:23,076 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:23,082 p=21812 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 19:51:23,831 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:23,835 p=21812 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 19:51:24,730 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:24,735 p=21812 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 19:51:26,981 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:26,984 p=21812 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 19:51:27,928 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:27,932 p=21812 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 19:51:28,273 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:28,276 p=21812 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 19:51:28,631 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:28,635 p=21812 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 19:51:29,298 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:29,305 p=21812 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 19:51:29,981 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:29,985 p=21812 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 19:51:32,977 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:32,983 p=21812 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 19:51:34,397 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:34,404 p=21812 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 19:51:34,746 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:34,752 p=21812 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 19:51:35,096 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:35,099 p=21812 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 19:51:35,437 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:35,441 p=21812 u=ansible n=ansible | TASK [Create Alertmanager group] *****************************************************************************************************
+2025-03-10 19:51:35,793 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:35,797 p=21812 u=ansible n=ansible | TASK [Create Alertmanager user] ******************************************************************************************************
+2025-03-10 19:51:36,195 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:36,199 p=21812 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 19:51:36,861 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:36,865 p=21812 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] ****************************************************************************************
+2025-03-10 19:51:37,494 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:37,498 p=21812 u=ansible n=ansible | TASK [Start and enable Alertmanager service] *****************************************************************************************
+2025-03-10 19:51:38,195 p=21812 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 19:51:38,208 p=21812 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:51:38,208 p=21812 u=ansible n=ansible | nfs.infraninjas.local      : ok=27   changed=22   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:57:21,464 p=22396 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] *********************************************************
+2025-03-10 19:57:21,470 p=22396 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:57:22,748 p=22396 u=ansible n=ansible | [WARNING]: Module remote_tmp /home/prometheus/.ansible/tmp did not exist and was created with a mode of 0700, this may cause issues
+when running as another user. To avoid this, create the remote_tmp dir with the correct permissions manually
+
+2025-03-10 19:57:22,748 p=22396 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:57:22,758 p=22396 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:57:24,494 p=22396 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:57:24,498 p=22396 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:57:27,876 p=22396 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "dest": "/tmp/", "extract_results": {"cmd": ["/bin/gtar", "--extract", "-C", "/tmp", "-z", "-f", "/tmp/prometheus-2.31.1.linux-amd64.tar.gz"], "err": "/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/index.html.example: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-cpu.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-disk.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-overview.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/prometheus-overview.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/prometheus.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles: Cannot utime: Operation not permitted\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries/menu.lib: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries/prom.lib: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries: Cannot utime: Operation not permitted\n/bin/gtar: prometheus-2.31.1.linux-amd64/prometheus.yml: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/LICENSE: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/NOTICE: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/prometheus: Cannot open: Permission denied\n/bin/gtar: prometheus-2.31.1.linux-amd64/promtool: Cannot open: Permission denied\n/bin/gtar: prometheus-2.31.1.linux-amd64: Cannot utime: Operation not permitted\n/bin/gtar: Exiting with failure status due to previous errors\n", "out": "", "rc": 2}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "01777", "msg": "failed to unpack /tmp/prometheus-2.31.1.linux-amd64.tar.gz to /tmp/", "owner": "root", "size": 4096, "src": "/tmp/prometheus-2.31.1.linux-amd64.tar.gz", "state": "directory", "uid": 0}
+2025-03-10 19:57:27,876 p=22396 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:57:27,876 p=22396 u=ansible n=ansible | nfs.infraninjas.local      : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 19:57:51,534 p=22451 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] *********************************************************
+2025-03-10 19:57:51,539 p=22451 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 19:57:52,558 p=22451 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:57:52,567 p=22451 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 19:57:53,870 p=22451 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 19:57:53,873 p=22451 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 19:57:57,200 p=22451 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "dest": "/tmp/", "extract_results": {"cmd": ["/bin/gtar", "--extract", "-C", "/tmp", "-z", "-f", "/tmp/prometheus-2.31.1.linux-amd64.tar.gz"], "err": "/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/index.html.example: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-cpu.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-disk.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node-overview.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/node.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/prometheus-overview.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles/prometheus.html: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/consoles: Cannot utime: Operation not permitted\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries/menu.lib: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries/prom.lib: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/console_libraries: Cannot utime: Operation not permitted\n/bin/gtar: prometheus-2.31.1.linux-amd64/prometheus.yml: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/LICENSE: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/NOTICE: Cannot open: File exists\n/bin/gtar: prometheus-2.31.1.linux-amd64/prometheus: Cannot open: Permission denied\n/bin/gtar: prometheus-2.31.1.linux-amd64/promtool: Cannot open: Permission denied\n/bin/gtar: prometheus-2.31.1.linux-amd64: Cannot utime: Operation not permitted\n/bin/gtar: Exiting with failure status due to previous errors\n", "out": "", "rc": 2}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "01777", "msg": "failed to unpack /tmp/prometheus-2.31.1.linux-amd64.tar.gz to /tmp/", "owner": "root", "size": 4096, "src": "/tmp/prometheus-2.31.1.linux-amd64.tar.gz", "state": "directory", "uid": 0}
+2025-03-10 19:57:57,201 p=22451 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 19:57:57,201 p=22451 u=ansible n=ansible | nfs.infraninjas.local      : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:00:32,915 p=22512 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] *********************************************************
+2025-03-10 20:00:32,920 p=22512 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 20:00:34,298 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:34,307 p=22512 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 20:00:35,962 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:35,965 p=22512 u=ansible n=ansible | TASK [Create Prometheus directory for extraction] ************************************************************************************
+2025-03-10 20:00:36,421 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:36,425 p=22512 u=ansible n=ansible | TASK [Extract Prometheus binary to /opt/prometheus] **********************************************************************************
+2025-03-10 20:00:39,936 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:39,940 p=22512 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 20:00:40,397 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:40,401 p=22512 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 20:00:40,788 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:40,792 p=22512 u=ansible n=ansible | TASK [Create Prometheus configuration directory] *************************************************************************************
+2025-03-10 20:00:41,186 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:41,191 p=22512 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 20:00:41,775 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:41,778 p=22512 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 20:00:42,429 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:42,432 p=22512 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 20:00:43,198 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:43,202 p=22512 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 20:00:44,714 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:44,717 p=22512 u=ansible n=ansible | TASK [Create Node Exporter directory for extraction] *********************************************************************************
+2025-03-10 20:00:45,111 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:45,115 p=22512 u=ansible n=ansible | TASK [Extract Node Exporter binary to /opt/node_exporter] ****************************************************************************
+2025-03-10 20:00:46,210 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:46,215 p=22512 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 20:00:46,581 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:46,584 p=22512 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 20:00:47,220 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:47,224 p=22512 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 20:00:47,838 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:47,842 p=22512 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 20:00:49,395 p=22512 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:00:49,398 p=22512 u=ansible n=ansible | TASK [Create Alertmanager directory for extraction] **********************************************************************************
+2025-03-10 20:00:49,822 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:49,825 p=22512 u=ansible n=ansible | TASK [Extract Alertmanager binary to /opt/alertmanager] ******************************************************************************
+2025-03-10 20:00:51,331 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:51,334 p=22512 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 20:00:51,720 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:51,724 p=22512 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 20:00:52,095 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:52,100 p=22512 u=ansible n=ansible | TASK [Create Alertmanager configuration directory] ***********************************************************************************
+2025-03-10 20:00:52,491 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:52,494 p=22512 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 20:00:53,104 p=22512 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:00:53,107 p=22512 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] ****************************************************************************************
+2025-03-10 20:00:53,233 p=22512 u=ansible n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 20:00:53,233 p=22512 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Could not find or access '/home/ansible/project/ktk/files/alertmanager.service' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+2025-03-10 20:00:53,234 p=22512 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 20:00:53,234 p=22512 u=ansible n=ansible | nfs.infraninjas.local      : ok=23   changed=16   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:02:18,966 p=22848 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] *********************************************************
+2025-03-10 20:02:18,971 p=22848 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 20:02:20,404 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:20,413 p=22848 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 20:02:21,268 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:21,272 p=22848 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 20:02:24,747 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:24,753 p=22848 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 20:02:25,222 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:25,226 p=22848 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 20:02:25,576 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:25,580 p=22848 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 20:02:26,026 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:26,035 p=22848 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 20:02:26,656 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:26,660 p=22848 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 20:02:27,260 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:27,264 p=22848 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 20:02:28,011 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:28,014 p=22848 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 20:02:28,678 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:28,682 p=22848 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 20:02:29,635 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:29,638 p=22848 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 20:02:29,979 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:29,983 p=22848 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 20:02:30,353 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:30,360 p=22848 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 20:02:30,957 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:30,965 p=22848 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 20:02:31,629 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:31,633 p=22848 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 20:02:32,319 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:32,326 p=22848 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 20:02:33,814 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:33,818 p=22848 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 20:02:34,183 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:34,188 p=22848 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 20:02:34,532 p=22848 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:02:34,535 p=22848 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 20:02:34,881 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:34,888 p=22848 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 20:02:35,475 p=22848 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:02:35,479 p=22848 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] ****************************************************************************************
+2025-03-10 20:02:35,597 p=22848 u=ansible n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 20:02:35,597 p=22848 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Could not find or access '/home/ansible/project/ktk/files/alertmanager.service' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+2025-03-10 20:02:35,598 p=22848 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 20:02:35,598 p=22848 u=ansible n=ansible | nfs.infraninjas.local      : ok=21   changed=10   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:06:16,979 p=23168 u=ansible n=ansible | ERROR! the playbook: proe could not be found
+2025-03-10 20:06:21,609 p=23173 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] *********************************************************
+2025-03-10 20:06:21,614 p=23173 u=ansible n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2025-03-10 20:06:23,002 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:23,011 p=23173 u=ansible n=ansible | TASK [Download Prometheus binary] ****************************************************************************************************
+2025-03-10 20:06:24,051 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:24,055 p=23173 u=ansible n=ansible | TASK [Extract Prometheus binary] *****************************************************************************************************
+2025-03-10 20:06:27,463 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:27,467 p=23173 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] **************************************************************************************
+2025-03-10 20:06:27,863 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:27,866 p=23173 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] ****************************************************************************************
+2025-03-10 20:06:28,223 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:28,227 p=23173 u=ansible n=ansible | TASK [Create Prometheus directory] ***************************************************************************************************
+2025-03-10 20:06:28,646 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:28,651 p=23173 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ********************************************************************************************
+2025-03-10 20:06:29,226 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:29,233 p=23173 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ******************************************************************************************
+2025-03-10 20:06:29,775 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:29,779 p=23173 u=ansible n=ansible | TASK [Start and enable Prometheus service] *******************************************************************************************
+2025-03-10 20:06:30,525 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:30,529 p=23173 u=ansible n=ansible | TASK [Download Node Exporter binary] *************************************************************************************************
+2025-03-10 20:06:32,004 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:32,008 p=23173 u=ansible n=ansible | TASK [Extract Node Exporter binary] **************************************************************************************************
+2025-03-10 20:06:32,967 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:32,970 p=23173 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ***********************************************************************************
+2025-03-10 20:06:33,294 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:33,297 p=23173 u=ansible n=ansible | TASK [Create Node Exporter directory] ************************************************************************************************
+2025-03-10 20:06:33,627 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:33,630 p=23173 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ***************************************************************************************
+2025-03-10 20:06:34,208 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:34,212 p=23173 u=ansible n=ansible | TASK [Start and enable Node Exporter service] ****************************************************************************************
+2025-03-10 20:06:34,755 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:34,759 p=23173 u=ansible n=ansible | TASK [Download Alertmanager binary] **************************************************************************************************
+2025-03-10 20:06:35,659 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:35,662 p=23173 u=ansible n=ansible | TASK [Extract Alertmanager binary] ***************************************************************************************************
+2025-03-10 20:06:37,053 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:37,060 p=23173 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] ************************************************************************************
+2025-03-10 20:06:37,406 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:37,410 p=23173 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ******************************************************************************************
+2025-03-10 20:06:37,736 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:37,739 p=23173 u=ansible n=ansible | TASK [Create Alertmanager directory] *************************************************************************************************
+2025-03-10 20:06:38,075 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:38,082 p=23173 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ******************************************************************************************
+2025-03-10 20:06:38,644 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:38,648 p=23173 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] ****************************************************************************************
+2025-03-10 20:06:39,198 p=23173 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:06:39,205 p=23173 u=ansible n=ansible | TASK [Start and enable Alertmanager service] *****************************************************************************************
+2025-03-10 20:06:39,763 p=23173 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:06:39,775 p=23173 u=ansible n=ansible | PLAY RECAP ***************************************************************************************************************************
+2025-03-10 20:06:39,775 p=23173 u=ansible n=ansible | nfs.infraninjas.local      : ok=23   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:12:34,488 p=23802 u=ansible n=ansible | ERROR! the playbook: playbooks/ does not appear to be a file
+2025-03-10 20:12:37,919 p=23808 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:12:37,924 p=23808 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:39,295 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:39,304 p=23808 u=ansible n=ansible | TASK [Download Prometheus binary] *********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:40,363 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:40,371 p=23808 u=ansible n=ansible | TASK [Extract Prometheus binary] **********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:43,747 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:43,751 p=23808 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] *******************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:44,184 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:44,188 p=23808 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:44,521 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:44,525 p=23808 u=ansible n=ansible | TASK [Create Prometheus directory] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:44,933 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:44,941 p=23808 u=ansible n=ansible | TASK [Copy Prometheus configuration file] *************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:45,500 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:45,503 p=23808 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:46,061 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:46,064 p=23808 u=ansible n=ansible | TASK [Start and enable Prometheus service] ************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:46,790 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:46,794 p=23808 u=ansible n=ansible | TASK [Download Node Exporter binary] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:48,226 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:48,229 p=23808 u=ansible n=ansible | TASK [Extract Node Exporter binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:49,127 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:49,131 p=23808 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:49,498 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:49,503 p=23808 u=ansible n=ansible | TASK [Create Node Exporter directory] *****************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:49,832 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:49,835 p=23808 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:50,406 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:50,410 p=23808 u=ansible n=ansible | TASK [Start and enable Node Exporter service] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:50,998 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:51,002 p=23808 u=ansible n=ansible | TASK [Download Alertmanager binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:52,538 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:52,542 p=23808 u=ansible n=ansible | TASK [Extract Alertmanager binary] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:53,938 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:53,945 p=23808 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] *****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:54,282 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:54,287 p=23808 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:54,629 p=23808 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:12:54,633 p=23808 u=ansible n=ansible | TASK [Create Alertmanager directory] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:54,971 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:54,975 p=23808 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:55,592 p=23808 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:12:55,595 p=23808 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:55,717 p=23808 u=ansible n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 20:12:55,717 p=23808 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Could not find or access '/home/ansible/project/ktk/files/alertmanager.service' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+2025-03-10 20:12:55,718 p=23808 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:12:55,718 p=23808 u=ansible n=ansible | nfs.infraninjas.local      : ok=21   changed=10   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:14:43,888 p=24208 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:14:43,893 p=24208 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:45,320 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:45,329 p=24208 u=ansible n=ansible | TASK [Download Prometheus binary] *********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:46,137 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:46,144 p=24208 u=ansible n=ansible | TASK [Extract Prometheus binary] **********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:49,669 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:49,673 p=24208 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] *******************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:50,096 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:50,103 p=24208 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:50,465 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:50,468 p=24208 u=ansible n=ansible | TASK [Create Prometheus directory] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:50,881 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:50,889 p=24208 u=ansible n=ansible | TASK [Copy Prometheus configuration file] *************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:51,496 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:51,503 p=24208 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:52,086 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:52,089 p=24208 u=ansible n=ansible | TASK [Start and enable Prometheus service] ************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:52,815 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:52,819 p=24208 u=ansible n=ansible | TASK [Download Node Exporter binary] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:53,473 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:53,476 p=24208 u=ansible n=ansible | TASK [Extract Node Exporter binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:54,394 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:54,398 p=24208 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:54,750 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:54,754 p=24208 u=ansible n=ansible | TASK [Create Node Exporter directory] *****************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:55,111 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:55,115 p=24208 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:55,667 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:55,671 p=24208 u=ansible n=ansible | TASK [Start and enable Node Exporter service] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:56,242 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:56,246 p=24208 u=ansible n=ansible | TASK [Download Alertmanager binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:56,896 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:56,900 p=24208 u=ansible n=ansible | TASK [Extract Alertmanager binary] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:58,302 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:58,309 p=24208 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] *****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:58,671 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:58,674 p=24208 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:59,033 p=24208 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:14:59,037 p=24208 u=ansible n=ansible | TASK [Create Alertmanager directory] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:14:59,425 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:14:59,431 p=24208 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:00,072 p=24208 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:00,075 p=24208 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:00,202 p=24208 u=ansible n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+2025-03-10 20:15:00,202 p=24208 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Could not find or access '/home/ansible/project/ktk/files/alertmanager.service' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+2025-03-10 20:15:00,204 p=24208 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:00,204 p=24208 u=ansible n=ansible | nfs.infraninjas.local      : ok=21   changed=10   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:15:37,692 p=24480 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:15:37,697 p=24480 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:38,786 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:38,795 p=24480 u=ansible n=ansible | TASK [Download Prometheus binary] *********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:40,228 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:40,232 p=24480 u=ansible n=ansible | TASK [Extract Prometheus binary] **********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:43,572 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:43,576 p=24480 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin] *******************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:43,974 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:43,981 p=24480 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:44,312 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:44,317 p=24480 u=ansible n=ansible | TASK [Create Prometheus directory] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:44,708 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:44,712 p=24480 u=ansible n=ansible | TASK [Copy Prometheus configuration file] *************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:45,263 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:45,267 p=24480 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:45,795 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:45,799 p=24480 u=ansible n=ansible | TASK [Start and enable Prometheus service] ************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:46,515 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:46,518 p=24480 u=ansible n=ansible | TASK [Download Node Exporter binary] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:47,853 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:47,857 p=24480 u=ansible n=ansible | TASK [Extract Node Exporter binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:48,788 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:48,791 p=24480 u=ansible n=ansible | TASK [Move Node Exporter binary to /usr/local/bin] ****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:49,158 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:49,162 p=24480 u=ansible n=ansible | TASK [Create Node Exporter directory] *****************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:49,492 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:49,496 p=24480 u=ansible n=ansible | TASK [Copy Node Exporter systemd service file] ********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:50,080 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:50,084 p=24480 u=ansible n=ansible | TASK [Start and enable Node Exporter service] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:50,620 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:50,624 p=24480 u=ansible n=ansible | TASK [Download Alertmanager binary] *******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:51,305 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:51,309 p=24480 u=ansible n=ansible | TASK [Extract Alertmanager binary] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:52,708 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:52,712 p=24480 u=ansible n=ansible | TASK [Move Alertmanager binary to /usr/local/bin] *****************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:53,044 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:53,048 p=24480 u=ansible n=ansible | TASK [Move amtool binary to /usr/local/bin] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:53,385 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:53,389 p=24480 u=ansible n=ansible | TASK [Create Alertmanager directory] ******************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:53,723 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:53,727 p=24480 u=ansible n=ansible | TASK [Copy Alertmanager configuration file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:54,278 p=24480 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:15:54,283 p=24480 u=ansible n=ansible | TASK [Copy Alertmanager systemd service file] *********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:55,043 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:55,050 p=24480 u=ansible n=ansible | TASK [Start and enable Alertmanager service] **********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:55,729 p=24480 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:15:55,742 p=24480 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:15:55,742 p=24480 u=ansible n=ansible | nfs.infraninjas.local      : ok=23   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:19:00,828 p=24972 u=ansible n=ansible | ERROR! conflicting action statements: command, creates
+
+The error appears to be in '/home/ansible/project/ktk/prometheus.setup.yml': line 19, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Move Prometheus binary to /usr/local/bin
+      ^ here
+
+2025-03-10 20:19:48,459 p=25071 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:19:48,464 p=25071 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:19:49,820 p=25071 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:19:49,829 p=25071 u=ansible n=ansible | TASK [Download Prometheus binary] *********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:19:50,345 p=25071 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "msg": "Unsupported parameters for (get_url) module: creates. Supported parameters include: attributes, backup, checksum, ciphers, client_cert, client_key, decompress, dest, force, force_basic_auth, group, headers, http_agent, mode, owner, selevel, serole, setype, seuser, timeout, tmp_dest, unredirected_headers, unsafe_writes, url, url_password, url_username, use_gssapi, use_netrc, use_proxy, validate_certs (attr, password, username)."}
+2025-03-10 20:19:50,346 p=25071 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:19:50,346 p=25071 u=ansible n=ansible | nfs.infraninjas.local      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:21:29,981 p=25170 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:21:29,986 p=25170 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:31,405 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:31,414 p=25170 u=ansible n=ansible | TASK [Check if Prometheus binary is already downloaded] ***********************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:31,928 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:31,934 p=25170 u=ansible n=ansible | TASK [Download Prometheus binary if not already downloaded] *******************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:31,950 p=25170 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:21:31,954 p=25170 u=ansible n=ansible | TASK [Extract Prometheus binary] **********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:35,289 p=25170 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:21:35,293 p=25170 u=ansible n=ansible | TASK [Check if Prometheus binary exists] **************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:35,687 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:35,691 p=25170 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin if not exists] *****************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:35,700 p=25170 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:21:35,704 p=25170 u=ansible n=ansible | TASK [Check if promtool binary exists] ****************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:36,119 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:36,123 p=25170 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin if not exists] *******************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:36,131 p=25170 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:21:36,135 p=25170 u=ansible n=ansible | TASK [Create Prometheus directory] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:36,575 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:36,578 p=25170 u=ansible n=ansible | TASK [Copy Prometheus configuration file] *************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:37,136 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:37,139 p=25170 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] ***********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:37,680 p=25170 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:21:37,684 p=25170 u=ansible n=ansible | TASK [Start and enable Prometheus service] ************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:38,428 p=25170 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:21:38,439 p=25170 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:21:38,439 p=25170 u=ansible n=ansible | nfs.infraninjas.local      : ok=9    changed=2    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+2025-03-10 20:23:27,849 p=25376 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] **************************************************************************************************************************************************************************************************
+2025-03-10 20:23:27,853 p=25376 u=ansible n=ansible | TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:34,296 p=25376 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:23:34,305 p=25376 u=ansible n=ansible | TASK [Check if Prometheus binary is already downloaded] ***********************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:34,709 p=25376 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:23:34,713 p=25376 u=ansible n=ansible | TASK [Download Prometheus binary if not already downloaded] *******************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:42,615 p=25376 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:23:42,619 p=25376 u=ansible n=ansible | TASK [Extract Prometheus binary] **********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:46,084 p=25376 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:23:46,088 p=25376 u=ansible n=ansible | TASK [Check if Prometheus binary exists] **************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:46,433 p=25376 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:23:46,437 p=25376 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin if not exists] *****************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:46,887 p=25376 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:23:46,891 p=25376 u=ansible n=ansible | TASK [Check if promtool binary exists] ****************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:47,260 p=25376 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:23:47,264 p=25376 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin if not exists] *******************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:47,687 p=25376 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:23:47,692 p=25376 u=ansible n=ansible | TASK [Create Prometheus directory] ********************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:48,221 p=25376 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:23:48,225 p=25376 u=ansible n=ansible | TASK [Copy Prometheus configuration file] *************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:49,011 p=25376 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "checksum": "bc621792932cefed0a68a1b894ad52a09853e84e", "gid": 0, "group": "root", "mode": "0644", "msg": "chown failed: failed to look up user prometheus", "owner": "root", "path": "/etc/prometheus/prometheus.yml", "size": 245, "state": "file", "uid": 0}
+2025-03-10 20:23:49,011 p=25376 u=ansible n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+2025-03-10 20:23:49,012 p=25376 u=ansible n=ansible | nfs.infraninjas.local      : ok=9    changed=5    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-10 20:26:04,328 p=25637 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] ***
+2025-03-10 20:26:04,334 p=25637 u=ansible n=ansible | TASK [Gathering Facts] *********************************************************
+2025-03-10 20:26:05,694 p=25637 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:05,704 p=25637 u=ansible n=ansible | TASK [Check if Prometheus binary is already downloaded] ************************
+2025-03-10 20:26:06,171 p=25637 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:06,175 p=25637 u=ansible n=ansible | TASK [Download Prometheus binary if not already downloaded] ********************
+2025-03-10 20:26:06,185 p=25637 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:06,190 p=25637 u=ansible n=ansible | TASK [Extract Prometheus binary] ***********************************************
+2025-03-10 20:26:09,631 p=25637 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:26:09,635 p=25637 u=ansible n=ansible | TASK [Check if Prometheus binary exists] ***************************************
+2025-03-10 20:26:10,031 p=25637 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:10,035 p=25637 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin if not exists] ******************
+2025-03-10 20:26:10,046 p=25637 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:10,050 p=25637 u=ansible n=ansible | TASK [Check if promtool binary exists] *****************************************
+2025-03-10 20:26:10,460 p=25637 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:10,464 p=25637 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin if not exists] ********************
+2025-03-10 20:26:10,473 p=25637 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:10,477 p=25637 u=ansible n=ansible | TASK [Create Prometheus directory] *********************************************
+2025-03-10 20:26:10,940 p=25637 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:10,945 p=25637 u=ansible n=ansible | TASK [Copy Prometheus configuration file] **************************************
+2025-03-10 20:26:11,522 p=25637 u=ansible n=ansible | fatal: [nfs.infraninjas.local]: FAILED! => {"changed": false, "checksum": "bc621792932cefed0a68a1b894ad52a09853e84e", "gid": 0, "group": "root", "mode": "0644", "msg": "chown failed: failed to look up user prometheus", "owner": "root", "path": "/etc/prometheus/prometheus.yml", "size": 245, "state": "file", "uid": 0}
+2025-03-10 20:26:11,523 p=25637 u=ansible n=ansible | PLAY RECAP *********************************************************************
+2025-03-10 20:26:11,523 p=25637 u=ansible n=ansible | nfs.infraninjas.local      : ok=6    changed=1    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+2025-03-10 20:26:39,930 p=25742 u=ansible n=ansible | PLAY [Set up Prometheus, Node Exporter, and Alertmanager as prometheus user] ****************************************************************************************************************************************************************
+2025-03-10 20:26:39,936 p=25742 u=ansible n=ansible | TASK [Gathering Facts] **********************************************************************************************************************************************************************************************************************
+2025-03-10 20:26:41,079 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:41,088 p=25742 u=ansible n=ansible | TASK [Check if Prometheus binary is already downloaded] *************************************************************************************************************************************************************************************
+2025-03-10 20:26:41,547 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:41,551 p=25742 u=ansible n=ansible | TASK [Download Prometheus binary if not already downloaded] *********************************************************************************************************************************************************************************
+2025-03-10 20:26:41,560 p=25742 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:41,565 p=25742 u=ansible n=ansible | TASK [Extract Prometheus binary] ************************************************************************************************************************************************************************************************************
+2025-03-10 20:26:43,992 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:43,995 p=25742 u=ansible n=ansible | TASK [Check if Prometheus binary exists] ****************************************************************************************************************************************************************************************************
+2025-03-10 20:26:44,389 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:44,392 p=25742 u=ansible n=ansible | TASK [Move Prometheus binary to /usr/local/bin if not exists] *******************************************************************************************************************************************************************************
+2025-03-10 20:26:44,402 p=25742 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:44,408 p=25742 u=ansible n=ansible | TASK [Check if promtool binary exists] ******************************************************************************************************************************************************************************************************
+2025-03-10 20:26:44,804 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:44,808 p=25742 u=ansible n=ansible | TASK [Move promtool binary to /usr/local/bin if not exists] *********************************************************************************************************************************************************************************
+2025-03-10 20:26:44,818 p=25742 u=ansible n=ansible | skipping: [nfs.infraninjas.local]
+2025-03-10 20:26:44,822 p=25742 u=ansible n=ansible | TASK [Create Prometheus directory] **********************************************************************************************************************************************************************************************************
+2025-03-10 20:26:45,254 p=25742 u=ansible n=ansible | ok: [nfs.infraninjas.local]
+2025-03-10 20:26:45,257 p=25742 u=ansible n=ansible | TASK [Create Prometheus user if not exists] *************************************************************************************************************************************************************************************************
+2025-03-10 20:26:45,758 p=25742 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:26:45,762 p=25742 u=ansible n=ansible | TASK [Copy Prometheus configuration file] ***************************************************************************************************************************************************************************************************
+2025-03-10 20:26:46,315 p=25742 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:26:46,319 p=25742 u=ansible n=ansible | TASK [Copy Prometheus systemd service file] *************************************************************************************************************************************************************************************************
+2025-03-10 20:26:47,062 p=25742 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:26:47,065 p=25742 u=ansible n=ansible | TASK [Start and enable Prometheus service] **************************************************************************************************************************************************************************************************
+2025-03-10 20:26:47,934 p=25742 u=ansible n=ansible | changed: [nfs.infraninjas.local]
+2025-03-10 20:26:47,946 p=25742 u=ansible n=ansible | PLAY RECAP **********************************************************************************************************************************************************************************************************************************
+2025-03-10 20:26:47,946 p=25742 u=ansible n=ansible | nfs.infraninjas.local      : ok=10   changed=4    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   

@@ -1,0 +1,120 @@
+#---
+##- name : test playbook
+##  hosts : nfs
+##  become : true
+##  tasks :
+##- name : download node exporter and unarchive
+##  ansible.builtin.unarchive:
+##    src : https://github.com/prometheus/node_exporter/releases/download/v1.9.0/node_exporter-1.9.0.linux-amd64.tar.gz
+##    dest : /home/ansible/
+##    remote_src : true
+#
+##- name : exec node_exporter
+##  ansible.builtin.shell:
+##    cmd : "nohup /home/ansible/node_exporter-1.9.0.linux-amd64/node_exporter &"
+#
+##- name : download alert manager and unarchive
+##  ansible.builtin.unarchive:
+##    src : https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-amd64.tar.gz
+##    dest : /home/ansible/
+##    remote_src : true
+#
+##- name : restart service
+##  ansible.builtin.service:
+##    name : alertmanager
+##    state : restarted
+
+#- name : exec alert manager
+#  ansible.builtin.shell:
+#    cmd : "nohup /home/ansible/alertmanager-0.28.1.linux-amd64/alertmanager --config.file=alertmanager.yml &"
+
+
+# Node Exporter 설정
+- name: download node exporter and unarchive
+  ansible.builtin.unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v1.9.0/node_exporter-1.9.0.linux-amd64.tar.gz
+    dest: /home/ansible/
+    remote_src: true
+
+- name: Move node_exporter binary
+  shell: "mv /home/ansible/node_exporter-1.9.0.linux-amd64/node_exporter /usr/local/bin/"
+
+- name: Create node_exporter systemd service
+  copy:
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Node Exporter
+      After=network.target
+      
+      [Service]
+      Type=simple
+      User=prometheus
+      Group=prometheus
+      ExecStart=/usr/local/bin/node_exporter
+      
+      [Install]
+      WantedBy=multi-user.target
+
+# Alertmanager 설정
+- name: download alert manager and unarchive
+  ansible.builtin.unarchive:
+    src: https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-amd64.tar.gz
+    dest: /home/ansible/
+    remote_src: true
+
+- name: Move alertmanager binary
+  shell: "cp /home/ansible/alertmanager-0.28.1.linux-amd64/alertmanager /usr/local/bin/"
+
+- name: Create alertmanager systemd service
+  copy:
+    dest: /etc/systemd/system/alertmanager.service
+    content: |
+      [Unit]
+      Description=Alertmanager
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=prometheus
+      Group=prometheus
+      ExecStart=/usr/local/bin/alertmanager \
+        --config.file=/etc/alertmanager/alertmanager.yml \
+        --storage.path=/var/lib/alertmanager
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Create required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+  with_items:
+    - /etc/alertmanager
+    - /var/lib/alertmanager
+
+- name: deploy template
+  ansible.builtin.template:
+    src: /home/ansible/project/roles/monitoring/templates/alertmanager.yml.j2
+    dest: /etc/alertmanager/alertmanager.yml
+    owner: prometheus
+    group: prometheus
+    mode: 0644
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - node_exporter
+    - alertmanager
+
+

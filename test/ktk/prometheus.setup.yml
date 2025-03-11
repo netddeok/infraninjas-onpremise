@@ -1,0 +1,77 @@
+---
+- name: Set up Prometheus, Node Exporter, and Alertmanager as prometheus user
+  hosts: all
+  become: true
+  tasks:
+    # Step 1: Install Prometheus (using binary download)
+    - name: Check if Prometheus binary is already downloaded
+      stat:
+        path: /tmp/prometheus-2.31.1.linux-amd64.tar.gz
+      register: prometheus_tar_stat
+
+    - name: Download Prometheus binary if not already downloaded
+      get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.31.1/prometheus-2.31.1.linux-amd64.tar.gz
+        dest: /tmp/prometheus-2.31.1.linux-amd64.tar.gz
+      when: not prometheus_tar_stat.stat.exists
+
+    - name: Extract Prometheus binary
+      unarchive:
+        src: /tmp/prometheus-2.31.1.linux-amd64.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Check if Prometheus binary exists
+      stat:
+        path: /usr/local/bin/prometheus
+      register: prometheus_stat
+
+    - name: Move Prometheus binary to /usr/local/bin if not exists
+      command: mv /tmp/prometheus-2.31.1.linux-amd64/prometheus /usr/local/bin/prometheus
+      when: not prometheus_stat.stat.exists
+
+    - name: Check if promtool binary exists
+      stat:
+        path: /usr/local/bin/promtool
+      register: promtool_stat
+
+    - name: Move promtool binary to /usr/local/bin if not exists
+      command: mv /tmp/prometheus-2.31.1.linux-amd64/promtool /usr/local/bin/promtool
+      when: not promtool_stat.stat.exists
+
+    - name: Create Prometheus directory
+      file:
+        path: /etc/prometheus
+        state: directory
+
+    # Step 2: Ensure Prometheus user exists
+    - name: Create Prometheus user if not exists
+      user:
+        name: prometheus
+        state: present
+
+    # Step 3: Copy Prometheus configuration file
+    - name: Copy Prometheus configuration file
+      copy:
+        src: /home/ansible/project/ktk/files/prometheus.yml
+        dest: /etc/prometheus/prometheus.yml
+        owner: prometheus
+        group: prometheus
+        mode: '0644'
+
+    # Step 4: Copy Prometheus systemd service file
+    - name: Copy Prometheus systemd service file
+      copy:
+        src: /home/ansible/project/ktk/files/prometheus.service
+        dest: /etc/systemd/system/prometheus.service
+        mode: '0644'
+
+    - name: Start and enable Prometheus service
+      systemd:
+        name: prometheus
+        state: started
+        enabled: yes
+        daemon_reload: yes
+
+    # Continue with other tasks...
+

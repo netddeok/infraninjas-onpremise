@@ -38,14 +38,34 @@
     - /usr/local/bin/prometheus
     - /usr/local/bin/promtool
 
+############### prometheus.yml.j2 ##
+- name: Configure Prometheus from template
+  ansible.builtin.template:
+    src: /home/ansible/project/roles/monitoring/templates/prometheus.yml.j2  # 템플릿 경로
+    dest: /etc/prometheus/prometheus.yml  # 템플릿이 렌더링될 대상 경로
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
+
 - name: Move Prometheus config file
   copy:
-    src: "/home/ansible/prometheus-{{ prometheus_version }}.linux-amd64/prometheus.yml"
-    dest: /etc/prometheus/prometheus.yml
+    src: "/etc/prometheus/prometheus.yml"
+    dest: "/home/ansible/prometheus-{{ prometheus_version }}.linux-amd64/prometheus.yml"
     remote_src : true
     owner: prometheus
     group: prometheus
 
+- name : install components
+  import_tasks: components.yml
+
+############ alertmanager.yml.j2
+- name: Configure Alertmanager from template
+  ansible.builtin.template:
+    src: /home/ansible/project/roles/monitoring/templates/alertmanager.yml.j2  # 템플릿 경로
+    dest: /home/ansible/alertmanager-0.28.1.linux-amd64/alertmanager.yml  # 템플릿이 렌더링될 대상 경로
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
 
 - name: Create Prometheus systemd service file
   copy:
@@ -76,5 +96,5 @@
 
 
 
-- name : install node exporter
-  import_tasks: node_exporter.yml
+#- name : install components
+#  import_tasks: components.yml

@@ -1,7 +1,0 @@
-
-[prometheus]
-#prometheus.infraninjas.local
-nfs.infraninjas.local
-[alertmanager]
-#prometheus.infraninjas.local
-#nfs.infraninjas.local

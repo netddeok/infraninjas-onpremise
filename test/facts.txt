@@ -1,0 +1,6 @@
+호스트명 OS종류 메모리(MB) CPU코어
+control-plane.infraninjas.local CentOS 7649 1
+grafana.infraninjas.local CentOS 3626 1
+node1.infraninjas.local CentOS 5625 1
+prometheus.infraninjas.local CentOS 3626 1
+node2.infraninjas.local CentOS 5625 1

@@ -1,0 +1,67 @@
+---
+- name: Install and configure Prometheus, Node Exporter, and Alertmanager
+  hosts: prometheus_servers
+  become: yes
+  tasks:
+    - name: Copy Prometheus configuration
+      copy:
+        src: prometheus.yml
+        dest: /etc/prometheus/prometheus.yml
+        owner: prometheus
+        group: prometheus
+        mode: '0644'
+
+    - name: Copy Alertmanager configuration
+      copy:
+        src: config.yml
+        dest: /etc/alertmanager/config.yml
+        owner: alertmanager
+        group: alertmanager
+        mode: '0644'
+
+    - name: Copy Prometheus service file
+      copy:
+        src: prometheus.service
+        dest: /etc/systemd/system/prometheus.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy Node Exporter service file
+      copy:
+        src: node_exporter.service
+        dest: /etc/systemd/system/node_exporter.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy Alertmanager service file
+      copy:
+        src: alertmanager.service
+        dest: /etc/systemd/system/alertmanager.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd to recognize new services
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start Prometheus service
+      systemd:
+        name: prometheus
+        enabled: yes
+        state: started
+
+    - name: Enable and start Node Exporter service
+      systemd:
+        name: node_exporter
+        enabled: yes
+        state: started
+
+    - name: Enable and start Alertmanager service
+      systemd:
+        name: alertmanager
+        enabled: yes
+        state: started
+

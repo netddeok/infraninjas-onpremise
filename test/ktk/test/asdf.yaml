@@ -1,0 +1,8 @@
+---
+- name : asdf
+  hosts : grafana
+  become: true
+  tasks : 
+    - name : asdf
+      ansible.builtin.command : 
+        cmd : hostname
