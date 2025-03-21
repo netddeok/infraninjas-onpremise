@@ -1,0 +1,92 @@
+## my global config
+#global:
+#  scrape_interval: 15s
+#  evaluation_interval: 15s
+#
+### ktk ga ma juya ham 
+#alerting:
+#  alertmanagers:
+#    - static_configs:
+#        - targets: ["localhost:9093"]
+#
+#rule_files:
+#  # - "first_rules.yml"
+#  # - "second_rules.yml"
+#
+#scrape_configs:
+#  - job_name: "prometheus"
+#    static_configs:
+#      - targets: ["localhost:9090"]
+#
+## jjs
+#  - job_name: 'node'
+#    static_configs:
+#      - targets: ['localhost:9100']
+#
+## ktk
+#  - job_name : 'alertmanager'
+#    static_configs:
+#      - targets:
+#        - "localhost:9093"
+#
+#
+# my global config
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager 설정
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: 
+          - "localhost:9093"  # http:// 제거, 프로토콜은 자동으로 처리됨
+
+# 규칙 파일 설정
+rule_files:
+  - "/etc/prometheus/rules/alert_rules.yml"
+
+# 스크래핑 설정
+scrape_configs:
+  # Prometheus 자체 모니터링
+  - job_name: "prometheus"
+    static_configs:
+      - targets: 
+        - "localhost:9090"
+
+  # Node Exporter 모니터링
+  - job_name: "node"
+    static_configs:
+      - targets: 
+        - "localhost:9100"
+
+  # Alertmanager 모니터링
+  - job_name: "alertmanager"
+    static_configs:
+      - targets: 
+        - "localhost:9093"
+
+  - job_name: "nfs monitoring"
+    static_configs:
+      - targets:
+        - "lb.infraninjas.local"
+    metrics_path: '/metrics'
+    scheme: 'http'
+
+
+# kube-state-metrics 모니터링 추가
+  - job_name: 'kubernetes-state-metrics'
+    static_configs:
+      - targets:
+        - "kube-state-metrics.kube-system.svc.cluster.local:8080"
+    metrics_path: '/metrics'
+    scheme: 'http'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '(.*)'
+        replacement: '$1'
+        action: replace
+

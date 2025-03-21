@@ -1,17 +1,31 @@
+global:
+  resolve_timeout: 5m
+  smtp_from: 'soldesk7979@gmail.com'
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_auth_username: 'soldesk7979@gmail.com'
+  smtp_auth_password: 'qzfd evck rbes qtuq'
+  smtp_require_tls: true
+
 route:
   group_by: ['alertname']
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 1h
-  receiver: 'web.hook'
+  receiver: 'email-notifications'
+
 receivers:
-  - name: 'web.hook'
-    webhook_configs:
-      - url: 'http://localhost:80/'
+  - name: 'email-notifications'
+    email_configs:
+      - to: 'soldesk7979@gmail.com'
+        headers:
+          subject: '[Prometheus Alert] Test Email'
+        html: '<b>Alert test message</b>'
+        send_resolved: true
+
 inhibit_rules:
   - source_match:
       severity: 'critical'
     target_match:
       severity: 'warning'
-    equal: ['alertname', 'dev', 'instance']
+    equal: ['alertname', 'instance']
 

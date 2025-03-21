@@ -1,0 +1,24 @@
+---
+# MySQL 설정
+mysql_root_password: "centos"
+mysql_replication_user: "replication_user"
+mysql_replication_password: "replica_password"
+mysql_rpl_user: "rpl_user"
+mysql_rpl_password: "rpl_password"
+
+# 데이터베이스 설정
+mysql_database: "review_db"
+
+# 그룹 복제 설정
+group_replication_group_name: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+group_replication_ip_allowlist: "192.168.30.20,192.168.30.30"
+
+# Pacemaker 설정
+hacluster_password: "centos"
+cluster_name: "mysql_cluster"
+
+# 네트워크 설정
+master_ip: "192.168.30.20"
+slave_ip: "192.168.30.30"
+group_replication_port: "33061"
+

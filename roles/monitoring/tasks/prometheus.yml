@@ -1,9 +1,4 @@
 ---
-#- name : download
-#  ansible.builtin.get_url:
-#    url : "{{ prometheus_url  }}"
-#    dest: /home/ansible/prometheus-2.53.3.linux-amd64.tar.gz
-
 - name : download and unarchive
   ansible.builtin.unarchive:
     src : "{{ prometheus_url }}"
@@ -25,6 +20,14 @@
     - /etc/prometheus
     - /var/lib/prometheus
 
+- name: Create prometheus rules directory
+  file:
+    path: /etc/prometheus/rules
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+
 - name: Move Prometheus binaries
   shell: "mv /home/ansible/prometheus-{{ prometheus_version }}.linux-amd64/{prometheus,promtool} /usr/local/bin/"
 
@@ -41,32 +44,17 @@
 ############### prometheus.yml.j2 ##
 - name: Configure Prometheus from template
   ansible.builtin.template:
-    src: /home/ansible/project/roles/monitoring/templates/prometheus.yml.j2  # 템플릿 경로
+    src: prometheus.yml.j2  # 템플릿 경로
     dest: /etc/prometheus/prometheus.yml  # 템플릿이 렌더링될 대상 경로
     owner: prometheus
     group: prometheus
     mode: '0644'
 
-- name: Move Prometheus config file
-  copy:
-    src: "/etc/prometheus/prometheus.yml"
-    dest: "/home/ansible/prometheus-{{ prometheus_version }}.linux-amd64/prometheus.yml"
-    remote_src : true
-    owner: prometheus
-    group: prometheus
 
 - name : install components
   import_tasks: components.yml
 
 ############ alertmanager.yml.j2
-- name: Configure Alertmanager from template
-  ansible.builtin.template:
-    src: /home/ansible/project/roles/monitoring/templates/alertmanager.yml.j2  # 템플릿 경로
-    dest: /home/ansible/alertmanager-0.28.1.linux-amd64/alertmanager.yml  # 템플릿이 렌더링될 대상 경로
-    owner: prometheus
-    group: prometheus
-    mode: '0644'
-
 - name: Create Prometheus systemd service file
   copy:
     dest: /etc/systemd/system/prometheus.service
@@ -92,9 +80,5 @@
   service:
     name: prometheus
     enabled: true
-    state: restarted    
+    state: restarted
 
-
-
-#- name : install components
-#  import_tasks: components.yml

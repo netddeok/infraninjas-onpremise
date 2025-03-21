@@ -1,0 +1,274 @@
+---
+# Common tasks for all nodes
+- name: Install required packages
+  dnf:
+    name:
+      - mysql-server
+      - python3-PyMySQL
+      - python3-pip
+    state: present
+
+- name: Install MySQL-python package
+  pip:
+    name: PyMySQL
+    state: present
+
+- name: Start and enable MySQL service
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Create MySQL configuration
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+  notify: restart mysql
+
+# MySQL root 비밀번호 설정
+- name: Set MySQL root password
+  mysql_user:
+    login_user: root
+    login_password: ''
+    user: root
+    password: "{{ mysql_root_password }}"
+    host_all: yes
+    state: present
+  ignore_errors: yes
+
+# MySQL root 비밀번호 업데이트를 위한 .my.cnf 파일 생성
+- name: Create .my.cnf file
+  template:
+    src: my.cnf.root.j2
+    dest: /root/.my.cnf
+    mode: '0600'
+
+# Master node tasks
+- name: Create MySQL users on master
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: '%'
+    priv: "{{ item.priv }}"
+    state: present
+  with_items:
+    - {
+        name: "{{ mysql_replication_user }}",
+        password: "{{ mysql_replication_password }}",
+        priv: "*.*:REPLICATION SLAVE,REPLICATION CLIENT"
+      }
+    - {
+        name: "{{ mysql_rpl_user }}",
+        password: "{{ mysql_rpl_password }}",
+        priv: "*.*:REPLICATION SLAVE,CONNECTION_ADMIN,REPLICATION_APPLIER"
+      }
+  when: inventory_hostname in groups['db_master']
+
+- name: Install group replication plugin on master
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: INSTALL PLUGIN group_replication SONAME 'group_replication.so'
+  ignore_errors: yes
+  when: inventory_hostname in groups['db_master']
+
+# Slave node tasks
+- name: Create MySQL users on slave
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: '%'
+    priv: "{{ item.priv }}"
+    state: present
+  with_items:
+    - {
+        name: "{{ mysql_replication_user }}",
+        password: "{{ mysql_replication_password }}",
+        priv: "*.*:REPLICATION SLAVE,REPLICATION CLIENT"
+      }
+    - {
+        name: "{{ mysql_rpl_user }}",
+        password: "{{ mysql_rpl_password }}",
+        priv: "*.*:REPLICATION SLAVE,CONNECTION_ADMIN,REPLICATION_APPLIER"
+      }
+  when: inventory_hostname in groups['db_slave']
+
+- name: Install group replication plugin on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: INSTALL PLUGIN group_replication SONAME 'group_replication.so'
+  ignore_errors: yes
+  when: inventory_hostname in groups['db_slave']
+
+# Pacemaker and Corosync configuration
+- name: Enable High Availability repository
+  command: dnf config-manager --set-enabled highavailability
+
+- name: Clean DNF cache
+  command: dnf clean all
+
+- name: Update DNF cache
+  dnf:
+    update_cache: yes
+
+- name: Install cluster packages
+  dnf:
+    name:
+      - pacemaker
+      - pcs
+      - corosync
+      - fence-agents-all
+    state: present
+
+- name: Stop cluster services
+  service:
+    name: "{{ item }}"
+    state: stopped
+  with_items:
+    - pacemaker
+    - corosync
+    - pcsd
+  ignore_errors: yes
+
+- name: Destroy existing cluster
+  command: pcs cluster destroy
+  ignore_errors: yes
+
+- name: Enable and start pcsd service
+  service:
+    name: pcsd
+    state: started
+    enabled: yes
+
+- name: Set hacluster password
+  user:
+    name: hacluster
+    password: "{{ hacluster_password | password_hash('sha512') }}"
+
+# Master cluster configuration
+- name: Authenticate cluster nodes
+  command: pcs host auth {{ master_ip }} {{ slave_ip }} -u hacluster -p {{ hacluster_password }}
+  when: inventory_hostname in groups['db_master']
+
+- name: Setup cluster with force option
+  command: pcs cluster setup {{ cluster_name }} {{ master_ip }} {{ slave_ip }} --force
+  when: inventory_hostname in groups['db_master']
+
+- name: Start cluster
+  command: pcs cluster start --all
+  when: inventory_hostname in groups['db_master']
+
+- name: Enable cluster autostart
+  command: pcs cluster enable --all
+  when: inventory_hostname in groups['db_master']
+
+- name: Create MySQL resource
+  command: pcs resource create mysql ocf:heartbeat:mysql op start timeout=60s op stop timeout=60s op monitor interval=20s
+  when: inventory_hostname in groups['db_master']
+
+# Database and tables creation
+- name: Create database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_database }}"
+    state: present
+  when: inventory_hostname in groups['db_master']
+
+- name: Create restaurant table
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_db: "{{ mysql_database }}"
+    query: |
+      CREATE TABLE IF NOT EXISTS restaurant (
+        id INT NOT NULL AUTO_INCREMENT,
+        x FLOAT,
+        y FLOAT,
+        name CHAR(50),
+        PRIMARY KEY (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  when: inventory_hostname in groups['db_master']
+
+- name: Create review table
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_db: "{{ mysql_database }}"
+    query: |
+      CREATE TABLE IF NOT EXISTS review (
+        id INT NOT NULL AUTO_INCREMENT,
+        body CHAR(100),
+        star FLOAT,
+        restaurant_id INT NOT NULL,
+        date DATE,
+        PRIMARY KEY (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  when: inventory_hostname in groups['db_master']
+
+# Group replication start on master
+- name: Set bootstrap group on master
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: SET GLOBAL group_replication_bootstrap_group = ON
+  when: inventory_hostname in groups['db_master']
+
+- name: Start group replication on master
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: START GROUP_REPLICATION
+  when: inventory_hostname in groups['db_master']
+
+- name: Disable bootstrap group on master
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: SET GLOBAL group_replication_bootstrap_group = OFF
+  when: inventory_hostname in groups['db_master']
+
+# Group replication start on slave
+- name: Reset master on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: RESET MASTER
+  when: inventory_hostname in groups['db_slave']
+
+- name: Change master on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: |
+      CHANGE MASTER TO MASTER_USER='{{ mysql_rpl_user }}',
+      MASTER_PASSWORD='{{ mysql_rpl_password }}'
+      FOR CHANNEL 'group_replication_recovery'
+  when: inventory_hostname in groups['db_slave']
+
+- name: Set server read only on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: SET GLOBAL read_only = ON
+  when: inventory_hostname in groups['db_slave']
+
+- name: Start group replication on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: START GROUP_REPLICATION
+  when: inventory_hostname in groups['db_slave']
+
+- name: Check replication status on slave
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: SELECT * FROM performance_schema.replication_group_members
+  when: inventory_hostname in groups['db_slave']
+

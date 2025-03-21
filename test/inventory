@@ -33,37 +33,29 @@ node2.infraninjas.local
 master
 worker
 
-[lb]
-lb.infraninjas.local
+#[lb]
+#lb.infraninjas.local
 
-[waf]
-waf.infraninjas.local
+#[waf]
+#waf.infraninjas.local
 
 [test]
 nfs.infraninjas.local
 
 ################################## COMPUTER 172.16.6.4
-#[dbproxy]
-#dbproxy.infraninjas.local
-#[db1]
-#db1.infraninjas.local
-#[db2]
-#db2.infraninjas.local
-#[dbs:children]
-#db1
-#db2
-#
-#
-#
-#
-[db_master]
+[dbproxy]
+dbproxy.infraninjas.local
+
+[db1]
 db1.infraninjas.local
 
-[db_slave]
+[db2]
 db2.infraninjas.local
 
-[db_all:children]
-db_master
-db_slave
+[dbs:children]
+db1
+db2
+
+
 
 

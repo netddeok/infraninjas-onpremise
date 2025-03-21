@@ -1,0 +1,48 @@
+---
+- name: Configure MySQL Common Settings
+  hosts: db_all
+  become: yes
+  roles:
+    - database
+
+- name: Configure Master Node
+  hosts: db_master
+  become: yes
+  roles:
+    - database
+
+- name: Configure Slave Node
+  hosts: db_slave
+  become: yes
+  roles:
+    - database
+
+- name: Configure Pacemaker and Corosync
+  hosts: db_all
+  become: yes
+  roles:
+    - database
+
+- name: Configure Cluster on Master
+  hosts: db_master
+  become: yes
+  roles:
+    - database
+
+- name: Create Database and Tables
+  hosts: db_master
+  become: yes
+  roles:
+    - database
+
+- name: Start Group Replication on Master
+  hosts: db_master
+  become: yes
+  roles:
+    - database
+
+- name: Start Group Replication on Slave
+  hosts: db_slave
+  become: yes
+  roles:
+    - database

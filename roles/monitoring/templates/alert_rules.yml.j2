@@ -1,0 +1,13 @@
+groups:
+- name: host
+  rules:
+  - alert: HostDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Host is down"
+      description: "Instance has been down for more than 1 minute."
+
+

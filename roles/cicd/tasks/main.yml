@@ -1,0 +1,6 @@
+---
+# tasks file for cicd
+
+- name: Include jenkins tasks
+  include_tasks: jenkins.yml
+

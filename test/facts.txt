@@ -1,6 +1,14 @@
-호스트명 OS종류 메모리(MB) CPU코어
-control-plane.infraninjas.local CentOS 7649 1
-grafana.infraninjas.local CentOS 3626 1
-node1.infraninjas.local CentOS 5625 1
-prometheus.infraninjas.local CentOS 3626 1
-node2.infraninjas.local CentOS 5625 1
+Hostname OS Memory(MB) CPU_Core Available(MB)
+router3.infraninjas.local CentOS 3622 1 30726
+router1.infraninjas.local CentOS 7652 2 30846
+jenkins.infraninjas.local CentOS 3623 1 28889
+dev.infraninjas.local CentOS 3626 1 31354
+nfs.infraninjas.local CentOS 5625 1 30113
+dbproxy.infraninjas.local CentOS 3626 1 31651
+db1.infraninjas.local CentOS 3626 1 31455
+db2.infraninjas.local CentOS 3626 1 31455
+grafana.infraninjas.local CentOS 3626 1 30393
+prometheus.infraninjas.local CentOS 3626 1 31257
+control-plane.infraninjas.local CentOS 7649 1 29015
+node1.infraninjas.local CentOS 5625 1 30827
+node2.infraninjas.local CentOS 5625 1 30090

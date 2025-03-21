@@ -1,0 +1,6 @@
+[master]
+control-plane.infraninjas.local
+
+[worker]
+node1.infraninjas.loacl
+node2.infraninjas.local

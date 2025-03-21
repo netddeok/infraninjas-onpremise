@@ -1,0 +1,9 @@
+namespace: leejoonyeob
+name: mysql
+version: 1.0.0
+authors: soldesk's infraninjas team
+description: "Automates MySQL high availability setup with Pacemaker. Created by soldes's infraninjas team."
+license: MIT
+repository : "https://github.com/leejoonyeob"
+readme : README.md
+dependencies: {}

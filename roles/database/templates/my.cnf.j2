@@ -1,0 +1,42 @@
+[mysqld]
+# 기본 설정
+server-id = {% if inventory_hostname in groups['db_master'] %}1{% else %}2{% endif %}
+
+# 바이너리 로그 설정
+log-bin = mysql-bin
+binlog-do-db = {{ mysql_database }}
+gtid_mode = ON
+enforce-gtid-consistency = TRUE
+log_slave_updates = TRUE
+binlog_format = ROW
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+transaction_write_set_extraction = XXHASH64
+
+# 그룹 복제 설정
+plugin_load_add = 'group_replication.so'
+loose-group_replication_group_name = "{{ group_replication_group_name }}"
+loose-group_replication_start_on_boot = OFF
+loose-group_replication_local_address = "{% if inventory_hostname in groups['db_master'] %}{{ master_ip }}{% else %}{{ slave_ip }}{% endif %}:{{ group_replication_port }}"
+loose-group_replication_group_seeds = "{{ master_ip }}:{{ group_replication_port }},{{ slave_ip }}:{{ group_replication_port }}"
+loose-group_replication_bootstrap_group = OFF
+loose-group_replication_ip_allowlist = "{{ group_replication_ip_allowlist }}"
+loose-group_replication_single_primary_mode = OFF
+loose-group_replication_enforce_update_everywhere_checks = ON
+
+# 복구 사용자 설정
+loose-group_replication_recovery_user = "{{ mysql_rpl_user }}"
+loose-group_replication_recovery_password = "{{ mysql_rpl_password }}"
+
+# 추가 설정
+disabled_storage_engines="MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"
+group_replication_recovery_get_public_key = ON
+group_replication_allow_local_lower_version_join = ON
+group_replication_recovery_retry_count = 10
+group_replication_recovery_reconnect_interval = 60
+binlog_row_image = FULL
+
+# 네트워크 설정
+bind-address = "0.0.0.0"
+report_host = "{% if inventory_hostname in groups['db_master'] %}{{ master_ip }}{% else %}{{ slave_ip }}{% endif %}"
+

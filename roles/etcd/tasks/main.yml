@@ -1,0 +1,16 @@
+---
+# tasks file for etcd
+
+- name : clone etcd
+  ansible.builtin.shell:
+    cmd : git clone -b v3.5.19 https://github.com/etcd-io/etcd.git
+
+- name : exec script
+  ansible.builtin.shell:
+    cmd : /home/ansible/etcd/build.sh
+
+- name : export PATH
+  ansible.builtin.shell:
+    cmd : export PATH="$PATH:`pwd`/bin"
+
+

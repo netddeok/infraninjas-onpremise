@@ -197,6 +197,7 @@
 # Calico CNI 설치
 - name : Install Calico CNI
   ansible.builtin.command:
+#    cmd : kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
     cmd : kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
 #- name: Install Calico operator
@@ -238,3 +239,10 @@
     src: /tmp/join.sh
     dest: /home/ansible/join.sh
     flat: true
+
+- name: Enable kubectl autocomplete
+  ansible.builtin.lineinfile:
+    path: ~/.bashrc
+    line: "source <(kubectl completion bash)"
+    state: present
+
