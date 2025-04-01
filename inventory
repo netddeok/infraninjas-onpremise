@@ -65,5 +65,3 @@ db2.infraninjas.local
 [db_all:children]
 db_master
 db_slave
-
-

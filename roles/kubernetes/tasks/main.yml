@@ -111,15 +111,6 @@
     state: restarted
     enabled: yes
 
-# 노드 타입에 따른 조건부 실행
-#- name: Include master tasks
-#  include_tasks: master.yml
-#  when: node_type == "master"
-
-#- name: Include worker tasks
-#  include_tasks: worker.yml
-#  when: node_type == "worker"
-
 - name: Include master tasks
   include_tasks: master.yml
   when: "'master' in group_names"

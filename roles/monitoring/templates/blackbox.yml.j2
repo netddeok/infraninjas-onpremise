@@ -1,0 +1,25 @@
+modules:
+  icmp:
+    prober: icmp
+    timeout: 5s
+    targets:
+      - "router1"
+      - "router2"
+      - "router3"
+      - "prometheus"
+      - "grafana"
+      - "jenkins"
+      - "ansible"
+      - "dev"
+      - "waf"
+      - "lb"
+      - "node1"
+      - "node2"
+      - "control-plane"
+      - "dbproxy"
+      - "db1"
+      - "db2"
+    icmp:
+      method: "ping"
+      ttl : 64
+

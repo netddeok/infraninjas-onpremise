@@ -1,0 +1,9 @@
+namespace: netddeok
+name: kubernetes
+version: 1.0.1
+authors: soldesk's infraninjas team
+description: "Automates Kubernetes cluster setup. Created by soldesk's infraninjas team."
+license: MIT
+repository : "https://github.com/netddeok/ansible.git"
+readme : README.md
+dependencies: {}

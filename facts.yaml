@@ -1,4 +1,23 @@
-- name: asdf
+#- name: Generate host system facts
+#  hosts: all
+#  become: true
+#  tasks:
+#    - name: 헤더 생성
+#      copy:
+#        content: |
+#          Hostname OS Memory(MB) CPU_Core remain
+#        dest: "./facts.txt"
+#      delegate_to: localhost
+#      run_once: true
+#
+#    - name: add facts to facts.txt
+#      lineinfile:
+#        path: "./facts.txt"
+#        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }} {{ ansible_mounts[0].size_available  }}"
+##        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }}"
+#      delegate_to: localhost
+
+- name: Generate host system facts
   hosts: all
   become: true
   tasks:
@@ -13,6 +32,6 @@
     - name: add facts to facts.txt
       lineinfile:
         path: "./facts.txt"
-        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }} {{ ansible_mounts[0].size_available  }}"
-#        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }}"
+        line: "{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_memtotal_mb }} {{ ansible_processor_count }} {{ (ansible_mounts[0].size_available / 1024 / 1024) | round(2) }}MB"
       delegate_to: localhost
+

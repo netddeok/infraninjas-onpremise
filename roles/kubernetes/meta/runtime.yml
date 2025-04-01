@@ -1,2 +1,24 @@
----
-requires_ansible: ">=2.9.0"
+galaxy_info:
+  author: soldesk
+  description: "This collection automates the setup and management of Kubernetes clusters. Created by the infraninjas team at soldesk."
+  company: soldesk
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+
+requires_ansible: "2.9"
+dependencies:
+  - name: "Kubernetes"
+    version: "v1.30.11"
+  - name: "Calico"
+    version: "v3.25.0"
+  - name: "containerd"
+    version: "1.7.25"
+
+documentation: "docs/README.md"  # 문서 파일 위치 (예시, 실제 문서 경로에 맞게 수정)
+
+
