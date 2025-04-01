@@ -1,7 +1,0 @@
----
-- name: Configure Kubernetes Master Node
-  hosts: test
-  become: true
-  roles:
-    - role: cicd
-

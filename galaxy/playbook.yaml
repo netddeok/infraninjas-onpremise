@@ -1,9 +1,0 @@
----
-- name : set up k8s cluster with soldesk
-  hosts : all
-  become : true
-  tasks :
-    - name : set up common configurations
-      include_tasks: tasks/main.yml
-
-
